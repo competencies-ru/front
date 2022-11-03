@@ -1,0 +1,48 @@
+@import '~styles/colors';
+
+.mainButtonWrapper {
+  box-sizing: border-box;
+
+  height: 100%;
+  width: 100%;
+
+  background: $gray-1;
+  border-radius: 20px;
+
+  text-decoration: none;
+
+  padding: 20px;
+  position: relative;
+
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+
+    transform: translateY(-50%);
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+
+    color: $green-2;
+  }
+
+  .arrowWrapper {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+
+    transform: translateY(-50%);
+
+    background: $green-3;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

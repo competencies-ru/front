@@ -1,0 +1,51 @@
+@import '~styles/grid';
+@import '~styles/colors';
+
+.wrapper {
+  box-sizing: border-box;
+
+  width: grid-width(4);
+  height: 366px;
+
+  background-color: $gray-6;
+  border-radius: 20px;
+
+  padding: 20px 10px 10px 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+
+    margin-bottom: 20px;
+  }
+
+  > form {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: white;
+    border-radius: 20px;
+
+    padding: 35px;
+
+    display: grid;
+    grid-template-rows: 85px 85px max-content;
+    grid-template-columns: 1fr;
+
+    column-gap: 35px;
+
+    .btn {
+      width: 165px;
+      height: 50px;
+
+      margin: 0 auto;
+    }
+  }
+}

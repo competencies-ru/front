@@ -1,0 +1,83 @@
+@import '~styles/colors';
+
+.menuWrapper {
+  box-sizing: border-box;
+
+  height: 100%;
+  width: 100%;
+
+  background: $gray-6;
+
+  border-radius: 20px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .link {
+    box-sizing: border-box;
+    position: relative;
+
+    width: 100%;
+    height: 52px;
+
+    padding-left: 21px;
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+
+    &:hover {
+      background: $gray-1;
+    }
+
+    .linkContent {
+      position: relative;
+
+      display: grid;
+      grid-template-columns: 18px max-content;
+      grid-template-rows: 1fr;
+      column-gap: 15px;
+
+      .iconWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .title {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+
+        color: $gray-2;
+      }
+    }
+
+    &.active {
+      background-color: $gray-1;
+
+      .iconWrapper > svg > path {
+        fill: $green-2;
+      }
+
+      .title {
+        color: $green-2;
+      }
+
+      .activeBlock {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 5px;
+        height: 100%;
+
+        border-radius: 18px;
+
+        background: $green-2;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import '~styles/colors';
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 44px);
+  gap: 10px;
+  align-items: center;
+
+  height: 44px;
+
+  background-color: $gray-1;
+  border-radius: 15px;
+
+  .day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $green-2;
+
+    font-size: 16px;
+    line-height: 22px;
+  }
+}

@@ -1,0 +1,69 @@
+@import '~styles/colors';
+
+.inputWrapper {
+  position: relative;
+
+  width: 100%;
+  height: 50px;
+
+  .eye {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    outline: none;
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+  }
+
+  .input {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+
+    background: #ffffff;
+    box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+
+    outline: none;
+    border: none;
+
+    padding: 0 30px;
+
+    margin-bottom: 5px;
+
+    &:autofill,
+    &:-webkit-autofill {
+      box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.06);
+    }
+
+    &::placeholder {
+      color: $gray-2;
+    }
+
+    &:disabled {
+      background-color: rgba(0, 0, 0, 0.06);
+      box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.16);
+    }
+
+    &.error {
+      box-shadow: inset 2px 2px 13px rgba(255, 0, 0, 0.25);
+    }
+
+    &.password {
+      padding-right: 72px;
+    }
+  }
+
+  .errorText {
+    color: $error;
+
+    font-size: 12px;
+    padding-left: 20px;
+  }
+}

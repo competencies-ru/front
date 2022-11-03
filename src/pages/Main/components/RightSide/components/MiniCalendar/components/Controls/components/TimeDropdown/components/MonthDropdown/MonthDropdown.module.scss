@@ -1,0 +1,43 @@
+@import '~styles/colors';
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(4, auto);
+  row-gap: 15px;
+  column-gap: 40px;
+
+  .month {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: $gray-5;
+
+    outline: none;
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    > * {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+
+      color: $gray-5;
+    }
+
+    &:hover > * {
+      color: $green-2;
+    }
+
+    &.selectedMonth > * {
+      font-weight: 700;
+      color: $green-2;
+    }
+  }
+}

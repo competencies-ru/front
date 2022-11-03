@@ -1,0 +1,26 @@
+@import '~styles/colors';
+@import '~styles/grid';
+
+.contentWrapper {
+  position: absolute;
+
+  left: calc(grid-width(3) + 30px);
+
+  background: $gray-6;
+
+  border-radius: 20px;
+
+  transition: left ease-in-out 1s, width ease-in-out 1s;
+
+  width: calc(100% - grid-width(3 + 4) - 30px);
+  height: calc(100% - 25px - 90px);
+
+  &.collapsed {
+    left: 0;
+    width: 100%;
+  }
+
+  .content {
+    position: relative;
+  }
+}

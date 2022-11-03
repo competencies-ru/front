@@ -1,0 +1,49 @@
+@import '~styles/colors';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+
+  height: 44px;
+
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+
+  color: $green-2;
+
+  .dropdowns {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 30px;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 15px;
+
+    > button {
+      width: 44px;
+      height: 44px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: $gray-1;
+      border-radius: 15px;
+
+      outline: none;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 2px 2px 9px rgba(4, 55, 48, 0.37);
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@import '~styles/colors';
+
+.weekTapeWrapper {
+  margin: 10px 0 20px 0;
+}
+
+.miniCalendar {
+  display: grid;
+  grid-template-columns: repeat(7, 44px);
+  grid-template-rows: repeat(6, 44px);
+
+  gap: 10px;
+
+  margin-bottom: 49px;
+
+  > button {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
+    font-size: 16px;
+    line-height: 22px;
+
+    border-radius: 15px;
+
+    color: $gray-4;
+
+    outline: none;
+    border: none;
+
+    &.currentMonth {
+      color: $gray-5;
+      background-color: $gray-1;
+    }
+
+    &.currentDay {
+      color: white;
+      background-color: $green-3;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      box-shadow: 2px 2px 9px rgba(4, 55, 48, 0.37);
+    }
+
+    > svg {
+      position: absolute;
+
+      top: 0;
+      right: 6px;
+    }
+  }
+}

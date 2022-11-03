@@ -1,0 +1,21 @@
+@import '~styles/colors';
+@import '~styles/grid';
+
+.mainWrapper {
+  position: relative;
+
+  box-sizing: border-box;
+
+  height: 100vh;
+
+  padding-bottom: 25px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 90px 1fr;
+
+  .content {
+    height: 100%;
+    width: 100%;
+  }
+}

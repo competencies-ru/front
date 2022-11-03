@@ -1,0 +1,41 @@
+@import '~styles/colors';
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(2, auto);
+  row-gap: 20px;
+  column-gap: 60px;
+
+  .year {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: $gray-5;
+
+    outline: none;
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    > * {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+
+      color: $gray-5;
+    }
+
+    &:hover > * {
+      color: $green-2;
+    }
+
+    &.selectedYear > * {
+      font-weight: 700;
+      color: $green-2;
+    }
+  }
+}
