@@ -10,4 +10,4 @@ const Layout: React.FC<Props> = ({ children }) => {
   return <div className={styles.layout}>{children}</div>;
 };
 
-export default Layout;
+export default React.memo(Layout);

@@ -34,6 +34,8 @@ module.exports = {
     'effector',
   ],
   rules: {
+    'effector/no-watch': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
     'object-curly-spacing': ['error', 'always'],
     'object-property-newline': 'error',
     '@typescript-eslint/await-thenable': 'warn', // TODO: enable
@@ -95,7 +97,6 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'error',
     '@typescript-eslint/no-invalid-this': ['error'],
     '@typescript-eslint/no-unsafe-return': 'warn', // TODO: remove this line after fixing errors
-    '@typescript-eslint/no-unsafe-assignment': 'warn', // TODO: remove this line after fixing errors
     '@typescript-eslint/no-throw-literal': 'warn', // TODO: remove this line after fixing errors
     '@typescript-eslint/no-for-in-array': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
@@ -130,7 +131,7 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': 'error',
     '@typescript-eslint/unbound-method': 'off',
     '@typescript-eslint/no-unsafe-call': 'warn', // TODO enable
-    '@typescript-eslint/no-unsafe-member-access': 'warn', // TODO enable
+    '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/triple-slash-reference': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/prefer-optional-chain': 'off',

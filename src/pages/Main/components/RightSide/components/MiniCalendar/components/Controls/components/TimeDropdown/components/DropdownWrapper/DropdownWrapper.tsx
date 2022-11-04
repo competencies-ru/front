@@ -44,6 +44,7 @@ const YearDropdown: React.FC<IProps> = ({ value, children, onChange }) => {
           {innerValue}
         </Typography>
         <DropdownArrow className={dropdownArrowStyles} />
+        {openedDropdown && <div className={styles.underline} />}
       </button>
       {openedDropdown && (
         <div>
@@ -63,7 +64,6 @@ const YearDropdown: React.FC<IProps> = ({ value, children, onChange }) => {
           </div>
         </div>
       )}
-      <div className={styles.underline} />
     </div>
   );
 };

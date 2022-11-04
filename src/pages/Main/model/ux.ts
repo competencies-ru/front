@@ -5,8 +5,12 @@ const uxDomain = createDomain('ux domain');
 const changeFullWidthContainer = uxDomain.createEvent();
 
 const $fullWidthContent = uxDomain
-  .createStore(false)
+  .createStore(!!localStorage.getItem('fullScreenContent'))
   .on(changeFullWidthContainer, (state) => !state);
+
+$fullWidthContent.updates.watch((value) => {
+  localStorage.setItem('fullScreenContent', value ? 'true' : '');
+});
 
 export const uxModel = {
   $store: combine({

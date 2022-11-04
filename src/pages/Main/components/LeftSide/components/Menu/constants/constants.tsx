@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Role } from 'types/user';
 
+import { ReactComponent as Bank } from '../assets/bank.svg';
 import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
 import { ReactComponent as MenuIcon } from '../assets/menu.svg';
 import { ReactComponent as ProfileIcon } from '../assets/profile.svg';
@@ -10,6 +11,7 @@ interface IMenuItem {
   name: string;
   path: string;
   Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string | undefined }>;
+  children?: string[];
 }
 
 type MenuItemsByRole = {
@@ -33,9 +35,10 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     Icon: ProfileIcon,
   },
   {
-    name: 'Новый конструктор',
-    path: '/constructor/new',
-    Icon: ProfileIcon,
+    name: 'Банк вопросов',
+    path: '/bank',
+    Icon: Bank,
+    children: ['/new, /edit'],
   },
 ];
 

@@ -1,0 +1,39 @@
+### getLevelsOfEducation
+- request:
+    url: ^/level-educations$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/levelsOfEducation.json
+
+### getUGSNByLevel
+- request:
+    url: ^/ugsn/([a-z0-9-]+)$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/ugsn.json
+
+### getSpecialityByUGSN
+- request:
+    url: ^/speciality/([a-z0-9-]+)$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/speciality.json
+
+### getTrainingDirectionBySpeciality
+- request:
+    url: ^/training-direction/([a-z0-9-]+)$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/trainingDirection.json

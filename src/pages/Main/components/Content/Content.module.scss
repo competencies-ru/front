@@ -2,6 +2,8 @@
 @import '~styles/grid';
 
 .contentWrapper {
+  box-sizing: border-box;
+
   position: absolute;
 
   left: calc(grid-width(3) + 30px);
@@ -14,6 +16,8 @@
 
   width: calc(100% - grid-width(3 + 4) - 30px);
   height: calc(100% - 25px - 90px);
+
+  padding: 30px;
 
   &.collapsed {
     left: 0;

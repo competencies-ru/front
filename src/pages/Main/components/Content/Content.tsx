@@ -1,9 +1,10 @@
 import React from 'react';
 
 import cn from 'classnames';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 import { FullScreenIcon } from './components';
+import { Bank } from './containers';
 
 import styles from './Content.module.scss';
 
@@ -13,6 +14,8 @@ interface IProps {
 }
 
 const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
+  const { pathname } = useLocation();
+
   const contentStyles = cn(styles.contentWrapper, { [styles.collapsed]: collapsed });
 
   return (
@@ -21,7 +24,12 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
         <FullScreenIcon collapsed={collapsed} onCollapse={onCollapse} />
         <React.Suspense fallback={<div>Loading</div>}>
           <Routes>
-            <Route path="/constructor/new" element={<div>test</div>} />
+            <Route path="/bank">
+              <Route index element={<Bank />} />
+              <Route path="new" element={<Bank.New />} />
+              <Route path=":id" element={<div>edit</div>} />
+            </Route>
+            {pathname !== '/' && <Route path="/*" element={<Navigate to="/" />} />}
           </Routes>
         </React.Suspense>
       </div>
