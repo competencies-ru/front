@@ -4,8 +4,10 @@ import cn from 'classnames';
 
 import { Typography, TypographyType } from '../Typography';
 
-import { ReactComponent as EyeClose } from './assets/EyeClose.svg';
-import { ReactComponent as EyeOpen } from './assets/EyeOpen.svg';
+import EyeClose from './assets/EyeClose.svg';
+import EyeOpen from './assets/EyeOpen.svg';
+// import { ReactComponent as EyeClose } from './assets/EyeClose.svg';
+// import { ReactComponent as EyeOpen } from './assets/EyeOpen.svg';
 
 import styles from './Input.module.scss';
 

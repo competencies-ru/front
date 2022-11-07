@@ -3,7 +3,8 @@
 
 import React from 'react';
 
-import Lottie, { Options } from 'react-lottie';
+import { Options } from 'react-lottie';
+const Lottie = React.lazy(() => import('react-lottie').then((lib) => ({ default: lib.default })));
 
 type Props = {
   src: any;

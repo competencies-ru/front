@@ -2,6 +2,7 @@
   "include": ["**/*.ts", "**/*.tsx", "*.ts", "*.tsx", "src", "craco.config.js"],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "outDir": "./dist/",
     "target": "ES6",
     "jsx": "react",
     "module": "esnext",
@@ -23,7 +24,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "noEmit": true,
+    "noEmit": false,
     "allowJs": true,
     "baseUrl": "src/",
     "resolveJsonModule": true,

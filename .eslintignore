@@ -1,2 +1,5 @@
 .eslintrc.js
 craco.config.js
+stubby
+webpack.config.js
+babel.config.js

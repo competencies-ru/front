@@ -5,9 +5,12 @@ import cn from 'classnames';
 import { Typography, TypographyType } from '@ui/Typography';
 import { useClickAway } from '@utils';
 
-import { ReactComponent as Left } from '../../../../assets/left.svg';
-import { ReactComponent as Right } from '../../../../assets/right.svg';
-import { ReactComponent as DropdownArrow } from '../../assets/dropdownArrow.svg';
+import Left from '../../../../assets/left.svg';
+import Right from '../../../../assets/right.svg';
+import DropdownArrow from '../../assets/dropdownArrow.svg';
+// import { ReactComponent as Left } from '../../../../assets/left.svg';
+// import { ReactComponent as Right } from '../../../../assets/right.svg';
+// import { ReactComponent as DropdownArrow } from '../../assets/dropdownArrow.svg';
 import { MONTHS } from '../constants';
 
 import styles from './DropdownWrapper.module.scss';

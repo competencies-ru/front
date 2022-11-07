@@ -2,10 +2,14 @@ import React from 'react';
 
 import { Role } from 'types/user';
 
-import { ReactComponent as Bank } from '../assets/bank.svg';
-import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
-import { ReactComponent as MenuIcon } from '../assets/menu.svg';
-import { ReactComponent as ProfileIcon } from '../assets/profile.svg';
+import Bank from '../assets/bank.svg';
+import CalendarIcon from '../assets/calendar.svg';
+import MenuIcon from '../assets/menu.svg';
+import ProfileIcon from '../assets/profile.svg';
+// import { ReactComponent as Bank } from '../assets/bank.svg';
+// import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
+// import { ReactComponent as MenuIcon } from '../assets/menu.svg';
+// import { ReactComponent as ProfileIcon } from '../assets/profile.svg';
 
 interface IMenuItem {
   name: string;
