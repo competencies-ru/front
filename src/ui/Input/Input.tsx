@@ -20,10 +20,12 @@ type Props = {
   className?: string;
   errorText?: string;
   placeholder?: string;
+  autocomplete?: string;
 };
 
 const Input: React.FC<Props> = (props) => {
-  const { value, onChange, name, type, disabled, className, errorText, placeholder } = props;
+  const { value, onChange, name, type, disabled, className, errorText, placeholder, autocomplete } =
+    props;
 
   const [ownType, setOwnType] = React.useState<typeof type>(type);
 
@@ -57,14 +59,15 @@ const Input: React.FC<Props> = (props) => {
         disabled={disabled}
         placeholder={placeholder}
         className={inputStyles}
+        autoComplete={autocomplete}
       />
       {ownType === 'password' && (
-        <button onClick={openPassword} className={styles.eye}>
+        <button onClick={openPassword} className={styles.eye} type="button">
           <EyeOpen />
         </button>
       )}
       {ownType === 'text' && type === 'password' && (
-        <button onClick={closePassword} className={styles.eye}>
+        <button onClick={closePassword} className={styles.eye} type="button">
           <EyeClose />
         </button>
       )}

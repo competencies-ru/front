@@ -1,17 +1,22 @@
 /* eslint-disable no-console */
 import React from 'react';
 
-import { Animation } from '@components';
+const Lottie = React.lazy(() =>
+  import('react-lottie-player').then((lib) => ({ default: lib.default }))
+);
+
 import animation from '@lotties/login.json';
 
-import { Form } from './components/Form';
+import { Form } from './components';
 
 import styles from './Login.module.scss';
 
 const Login = () => {
   return (
     <div className={styles.login}>
-      <Animation src={animation} className={styles.animation} />
+      <div className={styles.animation}>
+        <Lottie animationData={animation} play loop />
+      </div>
       <Form />
     </div>
   );

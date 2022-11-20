@@ -1,5 +1,5 @@
-$grid-width: 70px;
-$gutter-width: 30px;
+$grid-width: calc(70 * 100% / 1920);
+$gutter-width: calc(30 * 100% / 1920);
 
 @function grid-width($n) {
   @return $n * $grid-width + ($n - 1) * $gutter-width;

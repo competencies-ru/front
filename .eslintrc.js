@@ -37,7 +37,7 @@ module.exports = {
     'effector/no-watch': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     'object-curly-spacing': ['error', 'always'],
-    'object-property-newline': 'error',
+    'object-property-newline': 'off',
     '@typescript-eslint/await-thenable': 'warn', // TODO: enable
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/comma-dangle': [

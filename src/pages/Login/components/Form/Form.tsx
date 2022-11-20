@@ -37,6 +37,7 @@ const Form = () => {
           errorText={emailErrorText}
           placeholder="Email"
           name="email"
+          autocomplete="email"
         />
         <Input
           value={password}
@@ -44,6 +45,7 @@ const Form = () => {
           errorText={passwordErrorText}
           placeholder="Пароль"
           type="password"
+          autocomplete="current-password"
         />
         <Button type="submit" className={styles.btn}>
           Войти

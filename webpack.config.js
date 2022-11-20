@@ -40,7 +40,7 @@ module.exports = {
     alias: {
       '@styles': resolveApp('src/styles')(),
     },
-    extensions: ['.js', '.ts', '.tsx'],
+    extensions: ['.js', '.ts', '.tsx', '.scss'],
     symlinks: true,
   },
 
@@ -122,7 +122,7 @@ module.exports = {
 
   optimization: {
     runtimeChunk: 'single',
-    minimizer: [new UglifyJsPlugin()],
+    // minimizer: [new UglifyJsPlugin()],
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
