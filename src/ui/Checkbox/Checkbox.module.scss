@@ -1,0 +1,44 @@
+@import '@styles/colors';
+
+.checkboxWrapper {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+
+    background: transparent;
+    box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.06);
+    border-radius: 15px;
+
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+
+    > * {
+      width: 10px;
+      height: 10px;
+
+      background: $green-2;
+      box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.06);
+      border-radius: 15px;
+
+      border: none;
+      outline: none;
+
+      cursor: pointer;
+    }
+  }
+}

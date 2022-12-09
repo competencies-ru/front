@@ -1,15 +1,13 @@
-@import '@styles/grid';
-
 .rightSide {
   position: absolute;
   right: 0;
 
   transition: right ease-in-out 1s;
 
-  width: grid-width(4);
+  width: 360px;
   height: calc(100% - 25px - 90px);
 
   &.collapsed {
-    right: calc(-1 * (grid-width(4) + 25px));
+    right: calc(-1 * (360px + 25px));
   }
 }

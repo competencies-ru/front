@@ -4,7 +4,13 @@ import { createGate } from 'effector-react';
 import { createReEffect } from 'effector-reeffect';
 
 import { bankApi } from 'api';
-import { BankForm, ILevelOfEducation, Speciality, TrainingDirection, UGSN } from 'types/bank';
+import {
+  EducationInfoBankForm,
+  LevelOfEducation,
+  Speciality,
+  TrainingDirection,
+  UGSN,
+} from 'types/bank';
 
 import { REQUIRED_TEXT_ERROR } from './constants';
 
@@ -15,80 +21,80 @@ const getTrainingDirectionBySpecialityFx = createReEffect({
   handler: bankApi.getTrainingDirectionBySpeciality,
 });
 
-const bankFormDomain = createDomain('bank form domain');
+const bankFormFirstPartDomain = createDomain('bank form first part domain');
 
 // GATES
 const openGate = createGate();
 
 // EVENTS
 // levels
-const selectLevel = bankFormDomain.createEvent<string>();
-const changeLevelInput = bankFormDomain.createEvent<string>();
+const selectLevel = bankFormFirstPartDomain.createEvent<string>();
+const changeLevelInput = bankFormFirstPartDomain.createEvent<string>();
 
 // ugsn
-const selectUGSN = bankFormDomain.createEvent<string>();
-const changeUGSNInput = bankFormDomain.createEvent<string>();
+const selectUGSN = bankFormFirstPartDomain.createEvent<string>();
+const changeUGSNInput = bankFormFirstPartDomain.createEvent<string>();
 
 // speciality
-const selectSpeciality = bankFormDomain.createEvent<string>();
-const changeSpecialityInput = bankFormDomain.createEvent<string>();
+const selectSpeciality = bankFormFirstPartDomain.createEvent<string>();
+const changeSpecialityInput = bankFormFirstPartDomain.createEvent<string>();
 
 // trainingDirection
-const selectTD = bankFormDomain.createEvent<string>();
-const changeTDInput = bankFormDomain.createEvent<string>();
+const selectTD = bankFormFirstPartDomain.createEvent<string>();
+const changeTDInput = bankFormFirstPartDomain.createEvent<string>();
 
 // STORES
 // levels
-const $listOfLevelsEducation = bankFormDomain
-  .createStore<ILevelOfEducation[]>([])
+const $listOfLevelsEducation = bankFormFirstPartDomain
+  .createStore<LevelOfEducation[]>([])
   .on(getLevelsOfEducationFx.doneData, (_, levels) => levels);
 
-const $listOfLevelsEducationForUser = bankFormDomain
-  .createStore<ILevelOfEducation[]>([])
+const $listOfLevelsEducationForUser = bankFormFirstPartDomain
+  .createStore<LevelOfEducation[]>([])
   .on($listOfLevelsEducation.updates, (_, levels) => levels);
 
-const $levelInput = bankFormDomain.createStore<string>('').on(changeLevelInput, (_, v) => v);
+const $levelInput = bankFormFirstPartDomain
+  .createStore<string>('')
+  .on(changeLevelInput, (_, v) => v);
 
 // ugsn
-const $listOfUGSN = bankFormDomain
+const $listOfUGSN = bankFormFirstPartDomain
   .createStore<UGSN[]>([])
   .on(getUGSNByLevelFx.doneData, (_, ugsnList) => ugsnList);
 
-const $listOfUGSNForUser = bankFormDomain
+const $listOfUGSNForUser = bankFormFirstPartDomain
   .createStore<UGSN[]>([])
   .on($listOfUGSN.updates, (_, ugsnList) => ugsnList);
 
-const $ugsnInput = bankFormDomain.createStore<string>('').on(changeUGSNInput, (_, v) => v);
+const $ugsnInput = bankFormFirstPartDomain.createStore<string>('').on(changeUGSNInput, (_, v) => v);
 
 // speciality
-const $listOfSpeciality = bankFormDomain
+const $listOfSpeciality = bankFormFirstPartDomain
   .createStore<Speciality[]>([])
   .on(getSpecialityByUGSNFx.doneData, (_, specialityList) => specialityList);
 
-const $listOfSpecialityForUser = bankFormDomain
+const $listOfSpecialityForUser = bankFormFirstPartDomain
   .createStore<Speciality[]>([])
   .on($listOfSpeciality.updates, (_, specialityList) => specialityList);
 
-const $specialityInput = bankFormDomain
+const $specialityInput = bankFormFirstPartDomain
   .createStore<string>('')
   .on(changeSpecialityInput, (_, v) => v);
 
 // speciality
-const $listOfTD = bankFormDomain
+const $listOfTD = bankFormFirstPartDomain
   .createStore<TrainingDirection[]>([])
   .on(getTrainingDirectionBySpecialityFx.doneData, (_, TDList) => TDList);
 
-const $listOfTDForUser = bankFormDomain
+const $listOfTDForUser = bankFormFirstPartDomain
   .createStore<TrainingDirection[]>([])
   .on($listOfTD.updates, (_, TDList) => TDList);
 
-const $TDInput = bankFormDomain
-  .createStore<string>('')
-  .on(changeTDInput, (_, v) => v);
+const $TDInput = bankFormFirstPartDomain.createStore<string>('').on(changeTDInput, (_, v) => v);
 
 // FORMS
-const form = createForm<BankForm>({
-  domain: bankFormDomain,
+const form = createForm<EducationInfoBankForm>({
+  domain: bankFormFirstPartDomain,
   fields: {
     level: {
       init: null,
@@ -248,8 +254,7 @@ sample({
 sample({
   clock: $TDInput.updates,
   source: $listOfTD,
-  fn: (TDList, input) =>
-    TDList.filter((td) => `${td.code}–${td.name}`.includes(input)),
+  fn: (TDList, input) => TDList.filter((td) => `${td.code}–${td.name}`.includes(input)),
   target: $listOfTDForUser,
 });
 
@@ -277,7 +282,7 @@ forward({
   to: getTrainingDirectionBySpecialityFx,
 });
 
-export const bankFormModel = {
+export const bankFormFirstPartModel = {
   events: {
     select: {
       level: selectLevel,

@@ -1,19 +1,19 @@
 import React from 'react';
 
 import cn from 'classnames';
+import { nanoid } from 'nanoid';
 
 import { Typography, TypographyType } from '../Typography';
 
 import EyeClose from './assets/EyeClose.svg';
 import EyeOpen from './assets/EyeOpen.svg';
-// import { ReactComponent as EyeClose } from './assets/EyeClose.svg';
-// import { ReactComponent as EyeOpen } from './assets/EyeOpen.svg';
 
 import styles from './Input.module.scss';
 
 type Props = {
   value: string;
   onChange: (v: string) => void;
+  id?: string;
   name?: string;
   type?: React.HTMLInputTypeAttribute;
   disabled?: boolean;
@@ -23,9 +23,19 @@ type Props = {
   autocomplete?: string;
 };
 
-const Input: React.FC<Props> = (props) => {
-  const { value, onChange, name, type, disabled, className, errorText, placeholder, autocomplete } =
-    props;
+const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const {
+    value,
+    onChange,
+    id,
+    name,
+    type,
+    disabled,
+    className,
+    errorText,
+    placeholder,
+    autocomplete,
+  } = props;
 
   const [ownType, setOwnType] = React.useState<typeof type>(type);
 
@@ -60,6 +70,8 @@ const Input: React.FC<Props> = (props) => {
         placeholder={placeholder}
         className={inputStyles}
         autoComplete={autocomplete}
+        ref={ref}
+        id={id ?? nanoid()}
       />
       {ownType === 'password' && (
         <button onClick={openPassword} className={styles.eye} type="button">
@@ -78,7 +90,7 @@ const Input: React.FC<Props> = (props) => {
       )}
     </div>
   );
-};
+});
 
 Input.defaultProps = {
   disabled: false,

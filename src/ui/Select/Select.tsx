@@ -3,18 +3,17 @@ import React from 'react';
 import cn from 'classnames';
 
 import { useClickAway } from '@utils/useClickAway';
-import { IOption } from 'types/select';
+import { Option } from 'types/select';
 
 import { Typography, TypographyType } from '../Typography';
 
 import Arrow from './assets/arrow.svg';
-// import { ReactComponent as Arrow } from './assets/arrow.svg';
 
 import styles from './Select.module.scss';
 
 type Props = {
   value: string;
-  options: IOption[];
+  options: Option[];
   onChange: (v: string) => void;
   disabled?: boolean;
   className?: string;

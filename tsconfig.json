@@ -41,7 +41,9 @@
       "@lotties": ["lotties"],
       "@types": ["types"],
       "@types/*": ["types/*"],
-      "@models": ["models"]
+      "@models": ["models"],
+      "@constants/*": ["constants/*"],
+      "@constants": ["constants"]
     },
     "lib": [
       "dom",
