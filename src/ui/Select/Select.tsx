@@ -30,7 +30,7 @@ const Select: React.FC<Props> = (props) => {
   const [openedOptions, setOpenedOptions] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value);
 
-  const selectRef = React.useRef<HTMLDivElement | null>(null);
+  const selectRef = React.useRef<HTMLButtonElement | null>(null);
 
   React.useEffect(() => {
     setInputValue(value);
@@ -88,7 +88,7 @@ const Select: React.FC<Props> = (props) => {
   const inputDisabled = !onInputChange;
 
   return (
-    <div ref={selectRef} className={selectStyles}>
+    <button type="button" ref={selectRef} className={selectStyles} onClick={handleOpenOptions}>
       <Arrow className={arrowStyles} />
       <input
         disabled={inputDisabled}
@@ -96,7 +96,6 @@ const Select: React.FC<Props> = (props) => {
         onChange={onChangeInput}
         className={styles.input}
         placeholder={placeholder}
-        onClick={handleOpenOptions}
         onBlur={onInputBlur}
       />
       {openedOptions && (
@@ -122,7 +121,7 @@ const Select: React.FC<Props> = (props) => {
           {errorText}
         </Typography>
       )}
-    </div>
+    </button>
   );
 };
 

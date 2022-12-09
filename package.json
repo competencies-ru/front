@@ -43,7 +43,7 @@
     "analyze": "craco build",
     "start": "concurrently \"yarn run stubby\" \"yarn run serve\" ",
     "stubby": "node stubby/stubby.js",
-    "webpack:start": "concurrently \"yarn run stubby\" \"webpack serve --mode=production --progress\" ",
+    "webpack:start": "concurrently \"yarn run stubby\" \"webpack serve --mode=development --progress\" ",
     "webpack:build": "webpack --mode=production"
   },
   "eslintConfig": {
