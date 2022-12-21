@@ -1,6 +1,6 @@
 ### getLevelsOfEducation
 - request:
-    url: ^/level-educations$
+    url: ^/levels$
     method: GET
   response:
     - status: 200
@@ -10,7 +10,7 @@
 
 ### getUGSNByLevel
 - request:
-    url: ^/ugsn/([a-z0-9-]+)$
+    url: ^/levels/([a-z0-9-]+)/ugsn$
     method: GET
   response:
     - status: 200
@@ -20,7 +20,7 @@
 
 ### getSpecialityByUGSN
 - request:
-    url: ^/speciality/([a-z0-9-]+)$
+    url: ^/levels/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialties$
     method: GET
   response:
     - status: 200
@@ -30,7 +30,7 @@
 
 ### getTrainingDirectionBySpeciality
 - request:
-    url: ^/training-direction/([a-z0-9-]+)$
+    url: ^/level/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialty/([a-z0-9-]+)/programs$
     method: GET
   response:
     - status: 200

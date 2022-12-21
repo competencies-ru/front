@@ -2,21 +2,25 @@ import { LevelOfEducation, Speciality, TrainingDirection, UGSN } from 'types/ban
 
 import { api } from '../axios';
 
+import type { GetSpecialityArgs, GetProgramArgs } from './types';
+
 const bankApi = {
   getLevelsOfEducation: async () => {
-    const res = await api.get<LevelOfEducation[]>('/level-educations');
+    const res = await api.get<LevelOfEducation[]>('/levels');
     return res.data;
   },
-  getUGSNByLevel: async (levelId: string) => {
-    const res = await api.get<UGSN[]>(`/ugsn/${levelId}`);
+  getUGSN: async (levelId: string) => {
+    const res = await api.get<UGSN[]>(`/levels/${levelId}/ugsn`);
     return res.data;
   },
-  getSpecialityByUGSN: async (ugsnId: string) => {
-    const res = await api.get<Speciality[]>(`/speciality/${ugsnId}`);
+  getSpeciality: async ({ levelId, ugsnCode }: GetSpecialityArgs) => {
+    const res = await api.get<Speciality[]>(`/levels/${levelId}/ugsn/${ugsnCode}/specialties`);
     return res.data;
   },
-  getTrainingDirectionBySpeciality: async (specialityId: string) => {
-    const res = await api.get<TrainingDirection[]>(`/training-direction/${specialityId}`);
+  getTrainingDirection: async ({ levelId, ugsnCode, specialtyCode }: GetProgramArgs) => {
+    const res = await api.get<TrainingDirection[]>(
+      `/level/${levelId}/ugsn/${ugsnCode}/specialty/${specialtyCode}/programs`
+    );
     return res.data;
   },
 };

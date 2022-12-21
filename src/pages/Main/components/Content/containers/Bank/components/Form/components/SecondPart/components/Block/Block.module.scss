@@ -3,7 +3,7 @@
 .headerWrapper {
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 10px 1fr 1fr;
+  grid-template-columns: 10px 1fr 40px;
   gap: 30px;
 
   .number {

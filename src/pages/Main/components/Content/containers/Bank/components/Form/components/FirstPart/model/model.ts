@@ -1,9 +1,7 @@
-import { combine, createDomain, forward, sample } from 'effector';
+import { combine, createDomain, forward, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
-import { createReEffect } from 'effector-reeffect';
 
-import { bankApi } from 'api';
 import {
   EducationInfoBankForm,
   LevelOfEducation,
@@ -13,84 +11,12 @@ import {
 } from 'types/bank';
 
 import { REQUIRED_TEXT_ERROR } from './constants';
-
-const getLevelsOfEducationFx = createReEffect({ handler: bankApi.getLevelsOfEducation });
-const getUGSNByLevelFx = createReEffect({ handler: bankApi.getUGSNByLevel });
-const getSpecialityByUGSNFx = createReEffect({ handler: bankApi.getSpecialityByUGSN });
-const getTrainingDirectionBySpecialityFx = createReEffect({
-  handler: bankApi.getTrainingDirectionBySpeciality,
-});
+import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
 
 const bankFormFirstPartDomain = createDomain('bank form first part domain');
 
 // GATES
 const openGate = createGate();
-
-// EVENTS
-// levels
-const selectLevel = bankFormFirstPartDomain.createEvent<string>();
-const changeLevelInput = bankFormFirstPartDomain.createEvent<string>();
-
-// ugsn
-const selectUGSN = bankFormFirstPartDomain.createEvent<string>();
-const changeUGSNInput = bankFormFirstPartDomain.createEvent<string>();
-
-// speciality
-const selectSpeciality = bankFormFirstPartDomain.createEvent<string>();
-const changeSpecialityInput = bankFormFirstPartDomain.createEvent<string>();
-
-// trainingDirection
-const selectTD = bankFormFirstPartDomain.createEvent<string>();
-const changeTDInput = bankFormFirstPartDomain.createEvent<string>();
-
-// STORES
-// levels
-const $listOfLevelsEducation = bankFormFirstPartDomain
-  .createStore<LevelOfEducation[]>([])
-  .on(getLevelsOfEducationFx.doneData, (_, levels) => levels);
-
-const $listOfLevelsEducationForUser = bankFormFirstPartDomain
-  .createStore<LevelOfEducation[]>([])
-  .on($listOfLevelsEducation.updates, (_, levels) => levels);
-
-const $levelInput = bankFormFirstPartDomain
-  .createStore<string>('')
-  .on(changeLevelInput, (_, v) => v);
-
-// ugsn
-const $listOfUGSN = bankFormFirstPartDomain
-  .createStore<UGSN[]>([])
-  .on(getUGSNByLevelFx.doneData, (_, ugsnList) => ugsnList);
-
-const $listOfUGSNForUser = bankFormFirstPartDomain
-  .createStore<UGSN[]>([])
-  .on($listOfUGSN.updates, (_, ugsnList) => ugsnList);
-
-const $ugsnInput = bankFormFirstPartDomain.createStore<string>('').on(changeUGSNInput, (_, v) => v);
-
-// speciality
-const $listOfSpeciality = bankFormFirstPartDomain
-  .createStore<Speciality[]>([])
-  .on(getSpecialityByUGSNFx.doneData, (_, specialityList) => specialityList);
-
-const $listOfSpecialityForUser = bankFormFirstPartDomain
-  .createStore<Speciality[]>([])
-  .on($listOfSpeciality.updates, (_, specialityList) => specialityList);
-
-const $specialityInput = bankFormFirstPartDomain
-  .createStore<string>('')
-  .on(changeSpecialityInput, (_, v) => v);
-
-// speciality
-const $listOfTD = bankFormFirstPartDomain
-  .createStore<TrainingDirection[]>([])
-  .on(getTrainingDirectionBySpecialityFx.doneData, (_, TDList) => TDList);
-
-const $listOfTDForUser = bankFormFirstPartDomain
-  .createStore<TrainingDirection[]>([])
-  .on($listOfTD.updates, (_, TDList) => TDList);
-
-const $TDInput = bankFormFirstPartDomain.createStore<string>('').on(changeTDInput, (_, v) => v);
 
 // FORMS
 const form = createForm<EducationInfoBankForm>({
@@ -126,7 +52,7 @@ const form = createForm<EducationInfoBankForm>({
         },
       ],
     },
-    trainingDirection: {
+    TD: {
       init: null,
       rules: [
         {
@@ -140,169 +66,126 @@ const form = createForm<EducationInfoBankForm>({
   validateOn: ['submit'],
 });
 
-form.fields.ugsn.$value.reset(selectLevel);
-form.fields.speciality.$value.reset([selectLevel, selectUGSN]);
-form.fields.trainingDirection.$value.reset([selectLevel, selectUGSN, selectSpeciality]);
+form.fields.ugsn.$value.reset(levelModel.events.selectLevel);
+form.fields.speciality.$value.reset([levelModel.events.selectLevel, ugsnModel.events.selectUGSN]);
+form.fields.TD.$value.reset([
+  levelModel.events.selectLevel,
+  ugsnModel.events.selectUGSN,
+  specialityModel.events.selectSpeciality,
+]);
 
 // SAMPLES
-// levels
-sample({
-  clock: selectLevel,
-  source: $listOfLevelsEducationForUser,
-  fn: (levels, levelId) => levels.find((l) => l.id === levelId) ?? null,
-  target: form.fields.level.$value,
-});
-
-sample({
-  clock: form.fields.level.$value.updates,
-  source: $listOfLevelsEducationForUser,
-  fn: (levels, lvl) => levels.find((l) => l.id === lvl?.id ?? -1)?.level ?? '',
-  target: $levelInput,
-});
-
-sample({
-  clock: $levelInput.updates,
-  source: $listOfLevelsEducation,
-  fn: (levels, input) => levels.filter((l) => l.level.includes(input)),
-  target: $listOfLevelsEducationForUser,
-});
-
 // ugsn
 sample({
-  clock: selectUGSN,
-  source: $listOfUGSNForUser,
-  fn: (ugsn, ugsnId) => ugsn.find((u) => u.id === ugsnId) ?? null,
-  target: form.fields.ugsn.$value,
-});
-
-sample({
-  clock: form.fields.ugsn.$value.updates,
-  source: $listOfUGSNForUser,
-  fn: (ugsn, ug) => {
-    const foundUGSN = ugsn.find((u) => u.id === ug?.id ?? -1);
-
-    if (foundUGSN) {
-      return `${foundUGSN.code}–${foundUGSN.name}`;
-    }
-
-    return '';
-  },
-  target: $ugsnInput,
-});
-
-sample({
-  clock: $ugsnInput.updates,
-  source: $listOfUGSN,
-  fn: (ugsn, input) => ugsn.filter((u) => `${u.code}–${u.name}`.includes(input)),
-  target: $listOfUGSNForUser,
+  clock: ugsnModel.events.selectUGSN,
+  source: guard({
+    source: form.fields.level.$value,
+    filter: (level): level is LevelOfEducation => Boolean(level),
+  }),
+  fn: (level, ugsnCode) => ({ ugsnCode, levelId: level.id }),
+  target: specialityModel.effects.getSpecialityFx,
 });
 
 // speciality
 sample({
-  clock: selectSpeciality,
-  source: $listOfSpecialityForUser,
-  fn: (specialityList, specialityId) => specialityList.find((s) => s.id === specialityId) ?? null,
-  target: form.fields.speciality.$value,
-});
-
-sample({
-  clock: form.fields.speciality.$value.updates,
-  source: $listOfSpecialityForUser,
-  fn: (specialityList, sp) => {
-    const foundSpeciality = specialityList.find((s) => s.id === sp?.id ?? -1);
-
-    if (foundSpeciality) {
-      return `${foundSpeciality.code}–${foundSpeciality.name}`;
-    }
-
-    return '';
-  },
-  target: $ugsnInput,
-});
-
-sample({
-  clock: $specialityInput.updates,
-  source: $listOfSpeciality,
-  fn: (specialityList, input) =>
-    specialityList.filter((s) => `${s.code}–${s.name}`.includes(input)),
-  target: $listOfSpecialityForUser,
-});
-
-// training directions
-sample({
-  clock: selectTD,
-  source: $listOfTDForUser,
-  fn: (TDList, TDId) => TDList.find((td) => td.id === TDId) ?? null,
-  target: form.fields.trainingDirection.$value,
-});
-
-sample({
-  clock: form.fields.trainingDirection.$value.updates,
-  source: $listOfTDForUser,
-  fn: (TDList, td) => {
-    const foundTD = TDList.find((t) => t.id === td?.id ?? -1);
-
-    if (foundTD) {
-      return `${foundTD.code}–${foundTD.name}`;
-    }
-
-    return '';
-  },
-  target: $TDInput,
-});
-
-sample({
-  clock: $TDInput.updates,
-  source: $listOfTD,
-  fn: (TDList, input) => TDList.filter((td) => `${td.code}–${td.name}`.includes(input)),
-  target: $listOfTDForUser,
+  clock: specialityModel.events.selectSpeciality,
+  source: guard({
+    source: {
+      level: form.fields.level.$value,
+      ugsn: form.fields.ugsn.$value,
+    },
+    filter: (levelAndUgsn): levelAndUgsn is { level: LevelOfEducation; ugsn: UGSN } =>
+      Boolean(levelAndUgsn.level) && Boolean(levelAndUgsn.ugsn),
+  }),
+  fn: ({ level, ugsn }, specialtyCode) => ({
+    ugsnCode: ugsn.code,
+    levelId: level.id,
+    specialtyCode,
+  }),
+  target: TDModel.effects.getTDFx,
 });
 
 // FORWARDS
 // levels
 forward({
   from: openGate.open,
-  to: getLevelsOfEducationFx,
+  to: levelModel.effects.getLevelsOfEducationFx,
 });
 
 forward({
-  from: selectLevel,
-  to: getUGSNByLevelFx,
+  from: levelModel.events.selectLevel,
+  to: ugsnModel.effects.getUGSNFx,
 });
 
-// ugsn
-forward({
-  from: selectUGSN,
-  to: getSpecialityByUGSNFx,
+// levels integration
+guard({
+  clock: levelModel.events.updateLevelField,
+  filter: (level): level is LevelOfEducation => Boolean(level),
+  target: form.fields.level.$value,
 });
 
-// speciality
+forward({ from: form.fields.level.$value.updates, to: levelModel.events.levelFieldUpdated });
+
+// ugsn integration
+guard({
+  clock: ugsnModel.events.updateUGSNField,
+  filter: (ugsn): ugsn is UGSN => Boolean(ugsn),
+  target: form.fields.ugsn.$value,
+});
+
+forward({ from: form.fields.ugsn.$value.updates, to: ugsnModel.events.UGSNFieldUpdated });
+
+// speciality integration
+guard({
+  clock: specialityModel.events.updateSpecialityField,
+  filter: (speciality): speciality is Speciality => Boolean(speciality),
+  target: form.fields.speciality.$value,
+});
+
 forward({
-  from: selectSpeciality,
-  to: getTrainingDirectionBySpecialityFx,
+  from: form.fields.speciality.$value.updates,
+  to: specialityModel.events.specialityFieldUpdated,
+});
+
+// TD integration
+guard({
+  clock: TDModel.events.updateTDField,
+  filter: (TD): TD is TrainingDirection => Boolean(TD),
+  target: form.fields.TD.$value,
+});
+
+forward({
+  from: form.fields.TD.$value.updates,
+  to: TDModel.events.TDFieldUpdated,
 });
 
 export const bankFormFirstPartModel = {
   events: {
     select: {
-      level: selectLevel,
-      ugsn: selectUGSN,
-      speciality: selectSpeciality,
-      trainingDirection: selectTD,
+      level: levelModel.events.selectLevel,
+      ugsn: ugsnModel.events.selectUGSN,
+      speciality: specialityModel.events.selectSpeciality,
+      TD: TDModel.events.selectTD,
     },
     changeInput: {
-      level: changeLevelInput,
-      ugsn: changeUGSNInput,
-      speciality: changeSpecialityInput,
-      trainingDirection: changeTDInput,
+      level: levelModel.events.changeLevelInput,
+      ugsn: ugsnModel.events.changeUGSNInput,
+      speciality: specialityModel.events.changeSpecialityInput,
+      TD: TDModel.events.changeTDInput,
     },
   },
   stores: {
-    list: combine({
-      level: $listOfLevelsEducationForUser,
-      ugsn: $listOfUGSNForUser,
-      speciality: $listOfSpecialityForUser,
-      trainingDirection: $listOfTDForUser,
+    options: combine({
+      levelOptions: levelModel.stores.levelOptions,
+      ugsnOptions: ugsnModel.stores.UGSNOptions,
+      specialityOptions: specialityModel.stores.specialityOptions,
+      TDOptions: TDModel.stores.TDOptions,
+    }),
+    values: combine({
+      level: levelModel.stores.levelValue,
+      ugsn: ugsnModel.stores.UGSNValue,
+      speciality: specialityModel.stores.specialityValue,
+      TD: TDModel.stores.TDValue,
     }),
   },
   form,

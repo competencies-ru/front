@@ -4,7 +4,6 @@ import { useForm } from 'effector-forms';
 import { useGate, useStore } from 'effector-react';
 
 import { Select } from '@ui';
-import { Option } from 'types/select';
 
 import { FormItem } from '..';
 
@@ -12,65 +11,40 @@ import { bankFormFirstPartModel } from './model';
 
 import styles from './FirstPart.module.scss';
 
+type SelectKeys = keyof typeof bankFormFirstPartModel.events.select;
+
 const Form = () => {
   useGate(bankFormFirstPartModel.gates.openGate);
 
-  const lists = useStore(bankFormFirstPartModel.stores.list);
-  const { fields, errorText } = useForm(bankFormFirstPartModel.form);
+  const { levelOptions, ugsnOptions, specialityOptions, TDOptions } = useStore(
+    bankFormFirstPartModel.stores.options
+  );
 
-  const levelsOptions = lists.level.map<Option>(({ id, level }) => ({
-    id,
-    value: level,
-  }));
+  const values = useStore(bankFormFirstPartModel.stores.values);
 
-  const ugsnOptions = lists.ugsn.map<Option>(({ id, code, name }) => ({
-    id,
-    value: `${code}–${name}`,
-  }));
-
-  const specialityOptions = lists.speciality.map<Option>(({ id, code, name }) => ({
-    id,
-    value: `${code}–${name}`,
-  }));
-
-  const TSOptions = lists.trainingDirection.map<Option>(({ id, code, name }) => ({
-    id,
-    value: `${code}–${name}`,
-  }));
+  const { errorText } = useForm(bankFormFirstPartModel.form);
 
   const onSelect = React.useCallback(
-    (key: keyof typeof lists) => (id: string) => {
+    (key: SelectKeys) => (id: string) => {
       bankFormFirstPartModel.events.select[key](id);
     },
     []
   );
 
   const onLevelInputChange = React.useCallback(
-    (key: keyof typeof lists) => (input: string) => {
+    (key: SelectKeys) => (input: string) => {
       bankFormFirstPartModel.events.changeInput[key](input);
     },
     []
   );
 
-  const ugsnValue = fields.ugsn.value
-    ? `${fields.ugsn.value?.code ?? ''}–${fields.ugsn.value?.name ?? ''}`
-    : '';
-
-  const specialityValue = fields.speciality.value
-    ? `${fields.speciality.value?.code ?? ''}–${fields.speciality.value?.name ?? ''}`
-    : '';
-
-  const TDValue = fields.trainingDirection.value
-    ? `${fields.trainingDirection.value?.code ?? ''}–${fields.trainingDirection.value?.name ?? ''}`
-    : '';
-
   return (
     <>
       <FormItem>
         <Select
-          value={fields.level.value?.level ?? ''}
+          value={values.level}
           onInputChange={onLevelInputChange('level')}
-          options={levelsOptions}
+          options={levelOptions}
           onChange={onSelect('level')}
           className={styles.select}
           placeholder="Уровень"
@@ -79,7 +53,7 @@ const Form = () => {
       </FormItem>
       <FormItem>
         <Select
-          value={ugsnValue}
+          value={values.ugsn}
           onInputChange={onLevelInputChange('ugsn')}
           options={ugsnOptions}
           onChange={onSelect('ugsn')}
@@ -90,7 +64,7 @@ const Form = () => {
       </FormItem>
       <FormItem>
         <Select
-          value={specialityValue}
+          value={values.speciality}
           onInputChange={onLevelInputChange('speciality')}
           options={specialityOptions}
           onChange={onSelect('speciality')}
@@ -101,13 +75,13 @@ const Form = () => {
       </FormItem>
       <FormItem>
         <Select
-          value={TDValue}
-          onInputChange={onLevelInputChange('trainingDirection')}
-          options={TSOptions}
-          onChange={onSelect('trainingDirection')}
+          value={values.TD}
+          onInputChange={onLevelInputChange('TD')}
+          options={TDOptions}
+          onChange={onSelect('TD')}
           className={styles.select}
           placeholder="Направление"
-          errorText={errorText('trainingDirection')}
+          errorText={errorText('TD')}
         />
       </FormItem>
     </>
