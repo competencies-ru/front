@@ -28,15 +28,15 @@
   .arrow {
     position: absolute;
     right: 20px;
-    top: 50%;
+    top: calc(50% - 4px);
     z-index: 124;
 
     transition: transform ease-in-out 300ms;
 
-    transform: scaleY(1) translateY(-50%);
+    transform: scaleY(1);
 
     &.rotated {
-      transform: scaleY(-1) translateY(-50%);
+      transform: scaleY(-1);
     }
 
     cursor: pointer;

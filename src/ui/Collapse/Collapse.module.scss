@@ -1,9 +1,11 @@
 .collapseWrapper {
   position: relative;
 
-  transition: height 300ms ease-in-out;
-
   border-radius: 20px;
+
+  height: 100%;
+
+  overflow-y: hidden;
 
   .icon {
     transition: transform 300ms ease-in-out;

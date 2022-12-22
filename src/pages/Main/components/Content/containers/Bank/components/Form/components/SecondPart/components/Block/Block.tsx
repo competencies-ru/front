@@ -12,10 +12,13 @@ type Props = {
   number: number;
   children: React.ReactNode;
   onAddTask: (number: number) => () => void;
+  onRemoveBlock: (number: number) => void;
 };
 
 const Block: React.FC<Props> = (props) => {
-  const { number, children, onAddTask } = props;
+  const { number, children, onAddTask, onRemoveBlock } = props;
+
+  onRemoveBlock(3);
 
   const hasTasks = React.useMemo(
     () =>

@@ -80,11 +80,13 @@ const SecondPart = () => {
     []
   );
 
+  const onRemoveBlock = React.useCallback(() => undefined, []);
+
   return (
     <div className={styles.blocksWrapper}>
       {fields.disciplines.value.map((discipline, index) => (
         <Collapse key={discipline.id}>
-          <Block number={index + 1} onAddTask={onAddTask}>
+          <Block number={index + 1} onAddTask={onAddTask} onRemoveBlock={onRemoveBlock}>
             {discipline.indicator.tasks.map((task, index) => (
               <Task
                 key={task.id}
