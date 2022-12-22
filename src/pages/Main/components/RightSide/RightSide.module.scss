@@ -1,13 +1,4 @@
 .rightSide {
-  position: absolute;
-  right: 0;
-
-  transition: right ease-in-out 1s;
-
-  width: 360px;
-  height: calc(100% - 25px - 90px);
-
-  &.collapsed {
-    right: calc(-1 * (360px + 25px));
-  }
+  width: 100%;
+  height: 100%;
 }
