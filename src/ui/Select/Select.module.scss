@@ -28,16 +28,35 @@
   .arrow {
     position: absolute;
     right: 20px;
-    top: calc(50% - 4px);
+    top: 50%;
     z-index: 124;
 
     transition: transform ease-in-out 300ms;
 
-    transform: scaleY(1);
+    transform: scaleY(1) translateY(-50%);
 
     &.rotated {
-      transform: scaleY(-1);
+      transform: scaleY(-1) translateY(-50%);
     }
+
+    cursor: pointer;
+  }
+
+  .clear,
+  .spinner {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    z-index: 124;
+
+    height: 25px;
+    width: 25px;
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    transform: translateY(-50%);
 
     cursor: pointer;
   }

@@ -14,6 +14,7 @@ const selectTD = TDDomain.createEvent<string>();
 const changeTDInput = TDDomain.createEvent<string>();
 const updateTDField = TDDomain.createEvent<TrainingDirection | null>();
 const TDFieldUpdated = TDDomain.createEvent<TrainingDirection | null>();
+const clearTD = TDDomain.createEvent();
 
 // STORES
 const $listOfTD = TDDomain.createStore<TrainingDirection[]>([]).on(
@@ -46,6 +47,12 @@ sample({
 
     return null;
   },
+  target: updateTDField,
+});
+
+sample({
+  clock: clearTD,
+  fn: () => null,
   target: updateTDField,
 });
 
@@ -84,10 +91,12 @@ export const TDModel = {
     changeTDInput: changeTDInput,
     updateTDField: updateTDField,
     TDFieldUpdated: TDFieldUpdated,
+    clearTD: clearTD,
   },
   stores: {
     TDOptions: $TDOptions,
     TDValue: $TDValue,
+    optionsLoading: getTDFx.pending,
   },
   effects: {
     getTDFx: getTDFx,

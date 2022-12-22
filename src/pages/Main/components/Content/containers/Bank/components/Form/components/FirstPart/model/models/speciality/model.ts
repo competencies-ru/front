@@ -14,6 +14,7 @@ const selectSpeciality = specialityDomain.createEvent<string>();
 const changeSpecialityInput = specialityDomain.createEvent<string>();
 const updateSpecialityField = specialityDomain.createEvent<Speciality | null>();
 const specialityFieldUpdated = specialityDomain.createEvent<Speciality | null>();
+const clearSpeciality = specialityDomain.createEvent();
 
 // STORES
 const $listOfSpeciality = specialityDomain
@@ -49,6 +50,12 @@ sample({
 
     return null;
   },
+  target: updateSpecialityField,
+});
+
+sample({
+  clock: clearSpeciality,
+  fn: () => null,
   target: updateSpecialityField,
 });
 
@@ -91,10 +98,12 @@ export const specialityModel = {
     changeSpecialityInput: changeSpecialityInput,
     updateSpecialityField: updateSpecialityField,
     specialityFieldUpdated: specialityFieldUpdated,
+    clearSpeciality: clearSpeciality,
   },
   stores: {
     specialityOptions: $specialityOptions,
     specialityValue: $specialityValue,
+    optionsLoading: getSpecialityFx.pending,
   },
   effects: {
     getSpecialityFx: getSpecialityFx,

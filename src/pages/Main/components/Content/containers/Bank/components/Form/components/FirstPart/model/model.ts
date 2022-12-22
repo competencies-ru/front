@@ -2,14 +2,7 @@ import { combine, createDomain, forward, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
-import {
-  Competence,
-  EducationInfoBankForm,
-  LevelOfEducation,
-  Speciality,
-  TrainingDirection,
-  UGSN,
-} from 'types/bank';
+import { EducationInfoBankForm, LevelOfEducation, UGSN } from 'types/bank';
 
 import { REQUIRED_TEXT_ERROR } from './constants';
 import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
@@ -130,28 +123,25 @@ forward({
 });
 
 // levels integration
-guard({
-  clock: levelModel.events.updateLevelField,
-  filter: (level): level is LevelOfEducation => Boolean(level),
-  target: form.fields.level.$value,
+forward({
+  from: levelModel.events.updateLevelField,
+  to: form.fields.level.$value,
 });
 
 forward({ from: form.fields.level.$value.updates, to: levelModel.events.levelFieldUpdated });
 
 // ugsn integration
-guard({
-  clock: ugsnModel.events.updateUGSNField,
-  filter: (ugsn): ugsn is UGSN => Boolean(ugsn),
-  target: form.fields.ugsn.$value,
+forward({
+  from: ugsnModel.events.updateUGSNField,
+  to: form.fields.ugsn.$value,
 });
 
 forward({ from: form.fields.ugsn.$value.updates, to: ugsnModel.events.UGSNFieldUpdated });
 
 // speciality integration
-guard({
-  clock: specialityModel.events.updateSpecialityField,
-  filter: (speciality): speciality is Speciality => Boolean(speciality),
-  target: form.fields.speciality.$value,
+forward({
+  from: specialityModel.events.updateSpecialityField,
+  to: form.fields.speciality.$value,
 });
 
 forward({
@@ -160,10 +150,9 @@ forward({
 });
 
 // TD integration
-guard({
-  clock: TDModel.events.updateTDField,
-  filter: (TD): TD is TrainingDirection => Boolean(TD),
-  target: form.fields.TD.$value,
+forward({
+  from: TDModel.events.updateTDField,
+  to: form.fields.TD.$value,
 });
 
 forward({
@@ -172,15 +161,30 @@ forward({
 });
 
 // competence integration
-guard({
-  clock: competenceModel.events.updateCompetenceField,
-  filter: (level): level is Competence => Boolean(level),
-  target: form.fields.competence.$value,
+forward({
+  from: competenceModel.events.updateCompetenceField,
+  to: form.fields.competence.$value,
 });
 
 forward({
   from: form.fields.competence.$value.updates,
   to: competenceModel.events.competenceFieldUpdated,
+});
+
+// clears
+forward({
+  from: specialityModel.events.clearSpeciality,
+  to: TDModel.events.clearTD,
+});
+
+forward({
+  from: ugsnModel.events.clearUGSN,
+  to: [specialityModel.events.clearSpeciality, TDModel.events.clearTD],
+});
+
+forward({
+  from: levelModel.events.clearLevel,
+  to: [ugsnModel.events.clearUGSN, specialityModel.events.clearSpeciality, TDModel.events.clearTD],
 });
 
 export const bankFormFirstPartModel = {
@@ -199,6 +203,13 @@ export const bankFormFirstPartModel = {
       TD: TDModel.events.changeTDInput,
       competence: competenceModel.events.changeCompetenceInput,
     },
+    clear: {
+      level: levelModel.events.clearLevel,
+      ugsn: ugsnModel.events.clearUGSN,
+      speciality: specialityModel.events.clearSpeciality,
+      TD: TDModel.events.clearTD,
+      competence: competenceModel.events.clearCompetence,
+    },
   },
   stores: {
     options: combine({
@@ -214,6 +225,13 @@ export const bankFormFirstPartModel = {
       speciality: specialityModel.stores.specialityValue,
       TD: TDModel.stores.TDValue,
       competence: competenceModel.stores.competenceValue,
+    }),
+    loading: combine({
+      level: levelModel.stores.optionsLoading,
+      ugsn: ugsnModel.stores.optionsLoading,
+      speciality: specialityModel.stores.optionsLoading,
+      TD: TDModel.stores.optionsLoading,
+      competence: competenceModel.stores.optionsLoading,
     }),
   },
   form,

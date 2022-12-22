@@ -14,6 +14,7 @@ const selectLevel = levelDomain.createEvent<string>();
 const changeLevelInput = levelDomain.createEvent<string>();
 const updateLevelField = levelDomain.createEvent<LevelOfEducation | null>();
 const levelFieldUpdated = levelDomain.createEvent<LevelOfEducation | null>();
+const clearLevel = levelDomain.createEvent();
 
 // STORES
 const $listOfLevelsEducation = levelDomain
@@ -51,6 +52,12 @@ sample({
 });
 
 sample({
+  clock: clearLevel,
+  fn: () => null,
+  target: updateLevelField,
+});
+
+sample({
   clock: levelFieldUpdated,
   source: $levelsOfEducationOptions,
   fn: (levels, lvl) => levels.find((l) => l.id === lvl?.id ?? -1)?.value ?? '',
@@ -76,10 +83,12 @@ export const levelModel = {
     changeLevelInput,
     updateLevelField,
     levelFieldUpdated,
+    clearLevel,
   },
   stores: {
     levelOptions: $levelsOfEducationOptions,
     levelValue: $levelValue,
+    optionsLoading: getLevelsOfEducationFx.pending,
   },
   effects: {
     getLevelsOfEducationFx,

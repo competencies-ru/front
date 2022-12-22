@@ -14,6 +14,7 @@ const selectCompetence = competenceDomain.createEvent<string>();
 const changeCompetenceInput = competenceDomain.createEvent<string>();
 const updateCompetenceField = competenceDomain.createEvent<Competence | null>();
 const competenceFieldUpdated = competenceDomain.createEvent<Competence | null>();
+const clearCompetence = competenceDomain.createEvent();
 
 // STORES
 const $listOfCompetence = competenceDomain
@@ -53,6 +54,12 @@ sample({
 });
 
 sample({
+  clock: clearCompetence,
+  fn: () => null,
+  target: updateCompetenceField,
+});
+
+sample({
   clock: competenceFieldUpdated,
   source: $competenceOptions,
   fn: (competenceList, sp) => {
@@ -79,7 +86,6 @@ sample({
       })),
   target: $competenceOptions,
 });
-
 // values
 const $competenceValue = competenceDomain
   .createStore<string>('')
@@ -91,10 +97,12 @@ export const competenceModel = {
     changeCompetenceInput: changeCompetenceInput,
     updateCompetenceField: updateCompetenceField,
     competenceFieldUpdated: competenceFieldUpdated,
+    clearCompetence: clearCompetence,
   },
   stores: {
     competenceOptions: $competenceOptions,
     competenceValue: $competenceValue,
+    optionsLoading: getCompetenceFx.pending,
   },
   effects: {
     getCompetenceFx: getCompetenceFx,

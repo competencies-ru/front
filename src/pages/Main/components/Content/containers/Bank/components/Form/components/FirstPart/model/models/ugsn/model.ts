@@ -14,6 +14,7 @@ const selectUGSN = ugsnDomain.createEvent<string>();
 const changeUGSNInput = ugsnDomain.createEvent<string>();
 const updateUGSNField = ugsnDomain.createEvent<UGSN | null>();
 const UGSNFieldUpdated = ugsnDomain.createEvent<UGSN | null>();
+const clearUGSN = ugsnDomain.createEvent();
 
 // STORES
 const $listOfUGSN = ugsnDomain
@@ -45,6 +46,12 @@ sample({
 
     return null;
   },
+  target: updateUGSNField,
+});
+
+sample({
+  clock: clearUGSN,
+  fn: () => null,
   target: updateUGSNField,
 });
 
@@ -87,10 +94,12 @@ export const ugsnModel = {
     changeUGSNInput: changeUGSNInput,
     updateUGSNField: updateUGSNField,
     UGSNFieldUpdated: UGSNFieldUpdated,
+    clearUGSN: clearUGSN,
   },
   stores: {
     UGSNOptions: $UGSNOptions,
     UGSNValue: $UGSNValue,
+    optionsLoading: getUGSNFx.pending,
   },
   effects: {
     getUGSNFx,

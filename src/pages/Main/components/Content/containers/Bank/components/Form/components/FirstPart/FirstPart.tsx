@@ -21,6 +21,7 @@ const Form = () => {
   );
 
   const values = useStore(bankFormFirstPartModel.stores.values);
+  const loading = useStore(bankFormFirstPartModel.stores.loading);
 
   const { errorText } = useForm(bankFormFirstPartModel.form);
 
@@ -34,6 +35,13 @@ const Form = () => {
   const onLevelInputChange = React.useCallback(
     (key: SelectKeys) => (input: string) => {
       bankFormFirstPartModel.events.changeInput[key](input);
+    },
+    []
+  );
+
+  const onClear = React.useCallback(
+    (key: SelectKeys) => () => {
+      bankFormFirstPartModel.events.clear[key]();
     },
     []
   );
@@ -59,6 +67,8 @@ const Form = () => {
           className={styles.select}
           placeholder="Уровень"
           errorText={errorText('level')}
+          onClear={onClear('level')}
+          loading={loading.level}
         />
       </FormItem>
       <FormItem>
@@ -70,6 +80,9 @@ const Form = () => {
           className={styles.select}
           placeholder="УГСН"
           errorText={errorText('ugsn')}
+          onClear={onClear('ugsn')}
+          disabled={!values.level}
+          loading={loading.ugsn}
         />
       </FormItem>
       <FormItem>
@@ -81,6 +94,9 @@ const Form = () => {
           className={styles.select}
           placeholder={specialityPlaceholder}
           errorText={errorText('speciality')}
+          onClear={onClear('speciality')}
+          disabled={!values.ugsn}
+          loading={loading.speciality}
         />
       </FormItem>
       <FormItem>
@@ -92,6 +108,9 @@ const Form = () => {
           className={styles.select}
           placeholder={TDPlaceholder}
           errorText={errorText('TD')}
+          onClear={onClear('TD')}
+          disabled={!values.speciality}
+          loading={loading.TD}
         />
       </FormItem>
       <FormItem>
@@ -103,6 +122,8 @@ const Form = () => {
           className={styles.select}
           placeholder="Компетенция"
           errorText={errorText('competence')}
+          onClear={onClear('competence')}
+          loading={loading.competence}
         />
       </FormItem>
     </>
