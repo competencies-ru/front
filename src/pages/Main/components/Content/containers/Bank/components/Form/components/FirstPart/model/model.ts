@@ -3,6 +3,7 @@ import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
 import {
+  Competence,
   EducationInfoBankForm,
   LevelOfEducation,
   Speciality,
@@ -12,6 +13,7 @@ import {
 
 import { REQUIRED_TEXT_ERROR } from './constants';
 import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
+import { competenceModel } from './models/competence';
 
 const bankFormFirstPartDomain = createDomain('bank form first part domain');
 
@@ -53,6 +55,16 @@ const form = createForm<EducationInfoBankForm>({
       ],
     },
     TD: {
+      init: null,
+      rules: [
+        {
+          name: 'required',
+          errorText: REQUIRED_TEXT_ERROR,
+          validator: (l) => !!l,
+        },
+      ],
+    },
+    competence: {
       init: null,
       rules: [
         {
@@ -109,7 +121,7 @@ sample({
 // levels
 forward({
   from: openGate.open,
-  to: levelModel.effects.getLevelsOfEducationFx,
+  to: [levelModel.effects.getLevelsOfEducationFx, competenceModel.effects.getCompetenceFx],
 });
 
 forward({
@@ -159,6 +171,18 @@ forward({
   to: TDModel.events.TDFieldUpdated,
 });
 
+// competence integration
+guard({
+  clock: competenceModel.events.updateCompetenceField,
+  filter: (level): level is Competence => Boolean(level),
+  target: form.fields.competence.$value,
+});
+
+forward({
+  from: form.fields.competence.$value.updates,
+  to: competenceModel.events.competenceFieldUpdated,
+});
+
 export const bankFormFirstPartModel = {
   events: {
     select: {
@@ -166,12 +190,14 @@ export const bankFormFirstPartModel = {
       ugsn: ugsnModel.events.selectUGSN,
       speciality: specialityModel.events.selectSpeciality,
       TD: TDModel.events.selectTD,
+      competence: competenceModel.events.selectCompetence,
     },
     changeInput: {
       level: levelModel.events.changeLevelInput,
       ugsn: ugsnModel.events.changeUGSNInput,
       speciality: specialityModel.events.changeSpecialityInput,
       TD: TDModel.events.changeTDInput,
+      competence: competenceModel.events.changeCompetenceInput,
     },
   },
   stores: {
@@ -180,12 +206,14 @@ export const bankFormFirstPartModel = {
       ugsnOptions: ugsnModel.stores.UGSNOptions,
       specialityOptions: specialityModel.stores.specialityOptions,
       TDOptions: TDModel.stores.TDOptions,
+      competenceOptions: competenceModel.stores.competenceOptions,
     }),
     values: combine({
       level: levelModel.stores.levelValue,
       ugsn: ugsnModel.stores.UGSNValue,
       speciality: specialityModel.stores.specialityValue,
       TD: TDModel.stores.TDValue,
+      competence: competenceModel.stores.competenceValue,
     }),
   },
   form,

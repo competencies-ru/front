@@ -16,7 +16,7 @@ type SelectKeys = keyof typeof bankFormFirstPartModel.events.select;
 const Form = () => {
   useGate(bankFormFirstPartModel.gates.openGate);
 
-  const { levelOptions, ugsnOptions, specialityOptions, TDOptions } = useStore(
+  const { levelOptions, ugsnOptions, specialityOptions, TDOptions, competenceOptions } = useStore(
     bankFormFirstPartModel.stores.options
   );
 
@@ -36,6 +36,16 @@ const Form = () => {
       bankFormFirstPartModel.events.changeInput[key](input);
     },
     []
+  );
+
+  const specialityPlaceholder = React.useMemo(
+    () => (values.level === 'Специалитет' ? 'Специальность' : 'Направление'),
+    [values.level]
+  );
+
+  const TDPlaceholder = React.useMemo(
+    () => (values.level === 'Специалитет' ? 'Специализация' : 'Образовательная программа'),
+    [values.level]
   );
 
   return (
@@ -69,7 +79,7 @@ const Form = () => {
           options={specialityOptions}
           onChange={onSelect('speciality')}
           className={styles.select}
-          placeholder="Специальность"
+          placeholder={specialityPlaceholder}
           errorText={errorText('speciality')}
         />
       </FormItem>
@@ -80,8 +90,19 @@ const Form = () => {
           options={TDOptions}
           onChange={onSelect('TD')}
           className={styles.select}
-          placeholder="Направление"
+          placeholder={TDPlaceholder}
           errorText={errorText('TD')}
+        />
+      </FormItem>
+      <FormItem>
+        <Select
+          value={values.competence}
+          onInputChange={onLevelInputChange('competence')}
+          options={competenceOptions}
+          onChange={onSelect('competence')}
+          className={styles.select}
+          placeholder="Компетенция"
+          errorText={errorText('competence')}
         />
       </FormItem>
     </>

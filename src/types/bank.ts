@@ -19,8 +19,8 @@ export type TrainingDirection = {
 };
 
 export type Competence = {
-  id: string;
-  name: string;
+  code: string;
+  title: string;
 };
 
 export type EducationInfoBankForm = {
@@ -28,6 +28,7 @@ export type EducationInfoBankForm = {
   ugsn: UGSN | null;
   speciality: Speciality | null;
   TD: TrainingDirection | null;
+  competence: Competence | null;
 };
 
 export enum TaskType {

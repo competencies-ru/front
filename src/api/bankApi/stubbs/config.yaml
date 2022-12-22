@@ -8,7 +8,7 @@
         content-type: application/json
       file: data/levelsOfEducation.json
 
-### getUGSNByLevel
+### getUGSN
 - request:
     url: ^/levels/([a-z0-9-]+)/ugsn$
     method: GET
@@ -18,7 +18,7 @@
         content-type: application/json
       file: data/ugsn.json
 
-### getSpecialityByUGSN
+### getSpeciality
 - request:
     url: ^/levels/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialties$
     method: GET
@@ -28,7 +28,7 @@
         content-type: application/json
       file: data/speciality.json
 
-### getTrainingDirectionBySpeciality
+### getTrainingDirection
 - request:
     url: ^/level/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialty/([a-z0-9-]+)/programs$
     method: GET
@@ -37,3 +37,13 @@
       headers:
         content-type: application/json
       file: data/trainingDirection.json
+
+### getCompetence
+- request:
+    url: ^/competencies$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/competencies.json
