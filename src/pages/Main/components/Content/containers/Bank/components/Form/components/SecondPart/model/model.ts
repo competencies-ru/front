@@ -1,7 +1,7 @@
 import { createDomain, sample } from 'effector';
 import { createForm } from 'effector-forms';
 
-import { Discipline, TaskType } from 'types/bank';
+import { FormDiscipline, TaskType } from 'types/bank';
 
 import {
   generateDefaultAnswerOneVariant,
@@ -11,7 +11,7 @@ import {
 } from './service';
 
 type DisciplinesForm = {
-  disciplines: Discipline[];
+  disciplines: FormDiscipline[];
 };
 
 type ChangeTaskType = {

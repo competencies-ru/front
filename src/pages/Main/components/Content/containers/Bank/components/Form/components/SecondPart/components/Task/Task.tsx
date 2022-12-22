@@ -1,5 +1,7 @@
 import React from 'react';
 
+import cn from 'classnames';
+
 import { Select } from '@ui/Select';
 import { Textarea } from '@ui/Textarea';
 import { Typography, TypographyType } from '@ui/Typography';
@@ -90,6 +92,8 @@ const Task: React.FC<Props> = (props) => {
     type,
   ]);
 
+  const textareaStyles = cn(styles.textarea, { [styles.disabled]: !hasTaskType });
+
   return (
     <div className={styles.taskWrapper}>
       <div className={styles.task}>
@@ -100,20 +104,20 @@ const Task: React.FC<Props> = (props) => {
           className={styles.select}
           value={taskTypeValue}
           onChange={handleTaskType}
+          placeholder="Тип задания"
           options={TASK_TYPES_OPTIONS_TEXT}
         />
       </div>
-      {hasTaskType && (
-        <div className={styles.contentWrapper}>
-          <Textarea
-            value={task.description}
-            onChange={handleDescription}
-            placeholder="Условие"
-            className={styles.textarea}
-          />
-          {renderAnswer()}
-        </div>
-      )}
+      <div className={styles.contentWrapper}>
+        <Textarea
+          value={task.description}
+          onChange={handleDescription}
+          placeholder="Условие"
+          disabled={!hasTaskType}
+          className={textareaStyles}
+        />
+        {renderAnswer()}
+      </div>
     </div>
   );
 };

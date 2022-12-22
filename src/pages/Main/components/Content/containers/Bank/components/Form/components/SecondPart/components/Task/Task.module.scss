@@ -39,6 +39,10 @@
       width: 100%;
       height: 100px;
       margin-bottom: 30px;
+
+      &.disabled {
+        margin-bottom: 0;
+      }
     }
   }
 }

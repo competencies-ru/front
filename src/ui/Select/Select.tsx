@@ -103,7 +103,7 @@ const Select: React.FC<Props> = (props) => {
 
   const arrowStyles = cn(styles.arrow, { [styles.rotated]: openedOptions });
 
-  const inputDisabled = !onInputChange || !!disabled || !!loading;
+  const inputDisabled = !!disabled || !!loading;
 
   return (
     <div ref={selectRef} className={selectStyles}>

@@ -8,11 +8,12 @@ type Props = {
   value: string;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
   onChange: (v: string) => void;
 };
 
 const Textarea: React.FC<Props> = (props) => {
-  const { value, placeholder, className, onChange } = props;
+  const { value, placeholder, className, disabled, onChange } = props;
 
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,6 +30,7 @@ const Textarea: React.FC<Props> = (props) => {
       placeholder={placeholder}
       value={value}
       onChange={handleChange}
+      disabled={disabled}
     />
   );
 };

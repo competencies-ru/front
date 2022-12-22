@@ -57,20 +57,25 @@ export type Task<T extends TaskType = TaskType, A extends Answer = Answer> = {
   answer?: A;
 };
 
-export type Indicator = {
+type Indicator = {
   id: string;
-  name: string;
+  title: string;
+};
+
+export type FormIndicator = Indicator & {
   tasks: Task[];
 };
 
 export type Discipline = {
   id: string;
-  name: string;
-  indicator: Indicator;
+  title: string;
+};
+
+export type FormDiscipline = Discipline & {
+  indicator: FormIndicator;
 };
 
 export type BankForm = {
   educationInfo: EducationInfoBankForm;
-  competence: Competence;
-  disciplines: Discipline[];
+  disciplines: FormDiscipline[];
 };

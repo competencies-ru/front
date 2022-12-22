@@ -1,4 +1,11 @@
-import { Competence, LevelOfEducation, Speciality, TrainingDirection, UGSN } from 'types/bank';
+import {
+  Competence,
+  Discipline,
+  LevelOfEducation,
+  Speciality,
+  TrainingDirection,
+  UGSN,
+} from 'types/bank';
 
 import { api } from '../axios';
 
@@ -25,6 +32,10 @@ const bankApi = {
   },
   getCompetence: async () => {
     const res = await api.get<Competence[]>('/competencies');
+    return res.data;
+  },
+  getDisciplines: async () => {
+    const res = await api.get<Discipline[]>('/competencies');
     return res.data;
   },
 };

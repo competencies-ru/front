@@ -1,19 +1,19 @@
 import { nanoid } from 'nanoid';
 
 import {
-  Discipline,
+  FormDiscipline,
   OneVariantAnswer,
   OneVariantAnswerDescription,
   Task,
   TaskType,
 } from 'types/bank';
 
-export const generateDefaultDiscipline = (): Discipline => ({
+export const generateDefaultDiscipline = (): FormDiscipline => ({
   id: nanoid(),
-  name: '',
+  title: '',
   indicator: {
     id: nanoid(),
-    name: '',
+    title: '',
     tasks: [],
   },
 });
