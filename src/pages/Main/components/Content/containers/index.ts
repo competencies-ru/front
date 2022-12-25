@@ -1,3 +1,4 @@
-import { Bank } from './Bank'
+import { Bank } from './Bank';
+import { Indicator } from './Indicator';
 
-export { Bank }
+export { Bank, Indicator };

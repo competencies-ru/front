@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 import { FullScreenIcon } from './components';
-import { Bank } from './containers';
+import { Bank, Indicator } from './containers';
 
 import styles from './Content.module.scss';
 
@@ -26,20 +26,24 @@ const SHIFT = -290;
 const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
   const { pathname } = useLocation();
 
+  const getXValues = React.useCallback(
+    () =>
+      collapsed
+        ? { x: SHIFT, width: getHundredPercentsOfWidthToPixels() }
+        : {
+            x: 0,
+            width: subPixels(getHundredPercentsOfWidthToPixels(), '680px'),
+          },
+    [collapsed]
+  );
+
   const [springStyles, api] = useSpring(() => ({
-    from: {
-      x: 0,
-      width: subPixels(getHundredPercentsOfWidthToPixels(), '680px'),
-    },
+    from: getXValues(),
   }));
 
   const animate = React.useCallback(() => {
-    if (collapsed) {
-      api.start({ x: SHIFT, width: getHundredPercentsOfWidthToPixels() });
-    } else {
-      api.start({ x: 0, width: subPixels(getHundredPercentsOfWidthToPixels(), '680px') });
-    }
-  }, [api, collapsed]);
+    api.start(getXValues());
+  }, [api, getXValues]);
 
   React.useEffect(() => {
     animate();
@@ -61,6 +65,11 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
               <Route path="/bank">
                 <Route index element={<Bank />} />
                 <Route path="new" element={<Bank.New />} />
+                <Route path=":id" element={<div>edit</div>} />
+              </Route>
+              <Route path="/indicator">
+                <Route index element={<Indicator />} />
+                <Route path="new" element={<Indicator.New />} />
                 <Route path=":id" element={<div>edit</div>} />
               </Route>
               {pathname !== '/' && <Route path="/*" element={<Navigate to="/" />} />}

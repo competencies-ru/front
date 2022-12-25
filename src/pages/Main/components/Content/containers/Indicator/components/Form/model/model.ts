@@ -2,21 +2,21 @@ import { combine, createDomain, forward, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
-import { EducationInfoBankForm, LevelOfEducation, UGSN } from 'types/bank';
+import type { LevelOfEducation, UGSN } from 'types/bank';
+import type { CreateIndicatorForm } from 'types/indicator';
 
 import { REQUIRED_TEXT_ERROR } from './constants';
-import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
-import { competenceModel } from './models/competence';
+import { levelModel, ugsnModel, specialityModel, TDModel, competenceModel } from './models';
 
-const bankFormFirstPartDomain = createDomain('bank form first part domain');
-bankFormFirstPartDomain.onCreateStore((store) => store.reset(openGate.close));
+const indicatorFormDomain = createDomain('indicator form domain');
+indicatorFormDomain.onCreateStore((store) => store.reset(openGate.close));
 
 // GATES
 const openGate = createGate();
 
 // FORMS
-const form = createForm<EducationInfoBankForm>({
-  domain: bankFormFirstPartDomain,
+const form = createForm<CreateIndicatorForm>({
+  domain: indicatorFormDomain,
   fields: {
     level: {
       init: null,
@@ -30,26 +30,15 @@ const form = createForm<EducationInfoBankForm>({
     },
     ugsn: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
     },
     speciality: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
     },
     TD: {
       init: null,
+    },
+    competence: {
+      init: null,
       rules: [
         {
           name: 'required',
@@ -58,8 +47,18 @@ const form = createForm<EducationInfoBankForm>({
         },
       ],
     },
-    competence: {
-      init: null,
+    indicatorCode: {
+      init: '',
+      rules: [
+        {
+          name: 'required',
+          errorText: REQUIRED_TEXT_ERROR,
+          validator: (l) => !!l,
+        },
+      ],
+    },
+    indicator: {
+      init: '',
       rules: [
         {
           name: 'required',
@@ -188,7 +187,7 @@ forward({
   to: [ugsnModel.events.clearUGSN, specialityModel.events.clearSpeciality, TDModel.events.clearTD],
 });
 
-export const bankFormFirstPartModel = {
+export const indicatorFormModel = {
   events: {
     select: {
       level: levelModel.events.selectLevel,

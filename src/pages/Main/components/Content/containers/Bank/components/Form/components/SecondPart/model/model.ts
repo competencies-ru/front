@@ -3,6 +3,8 @@ import { createForm } from 'effector-forms';
 
 import { FormDiscipline, TaskType } from 'types/bank';
 
+import { bankFormFirstPartModel } from '../../FirstPart/model';
+
 import {
   generateDefaultAnswerOneVariant,
   generateDefaultDiscipline,
@@ -48,6 +50,9 @@ type ChangeAnswerDescription = {
 };
 
 const bankFormSecondPartDomain = createDomain('bank form second part domain');
+bankFormSecondPartDomain.onCreateStore((store) =>
+  store.reset(bankFormFirstPartModel.gates.openGate.close)
+);
 
 const addTask = bankFormSecondPartDomain.createEvent<number>();
 const addDisciplineOrIndicator = bankFormSecondPartDomain.createEvent();

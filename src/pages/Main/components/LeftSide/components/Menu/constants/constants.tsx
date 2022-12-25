@@ -4,6 +4,7 @@ import { Role } from 'types/user';
 
 import Bank from '../assets/bank.svg';
 import CalendarIcon from '../assets/calendar.svg';
+import Indicator from '../assets/indicator.svg';
 import MenuIcon from '../assets/menu.svg';
 import ProfileIcon from '../assets/profile.svg';
 // import { ReactComponent as Bank } from '../assets/bank.svg';
@@ -42,6 +43,12 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     name: 'Банк вопросов',
     path: '/bank',
     Icon: Bank,
+    children: ['/new, /edit'],
+  },
+  {
+    name: 'Индикаторы',
+    path: '/indicator',
+    Icon: Indicator,
     children: ['/new, /edit'],
   },
 ];

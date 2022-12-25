@@ -1,0 +1,19 @@
+@import '@styles/colors';
+
+.title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+
+  color: $green-3;
+}
+
+.select {
+  width: 100%;
+  height: 50px;
+}
+
+.btn {
+  height: 40px;
+  padding: 0 20px;
+}

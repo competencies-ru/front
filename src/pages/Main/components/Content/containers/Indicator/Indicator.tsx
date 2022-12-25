@@ -6,25 +6,25 @@ import { Button, Typography, TypographyType } from '@ui';
 
 import { New } from './components';
 
-import styles from './Bank.module.scss';
+import styles from './Indicator.module.scss';
 
-class Bank extends React.Component {
+class Indicator extends React.Component {
   static New = New;
 
   render() {
-    const newBankLink = `${window.location.pathname}/new`;
+    const newIndicatorLink = `${window.location.pathname}/new`;
 
     return (
       <>
-        <Link to={newBankLink}>
-          <Button className={styles.btn}>Создать банк вопросов</Button>
+        <Link to={newIndicatorLink}>
+          <Button className={styles.btn}>Создать индикатор</Button>
         </Link>
         <Typography type={TypographyType.H3} className={styles.title}>
-          Банки вопросов
+          Индикаторы
         </Typography>
       </>
     );
   }
 }
 
-export default Bank;
+export default Indicator;

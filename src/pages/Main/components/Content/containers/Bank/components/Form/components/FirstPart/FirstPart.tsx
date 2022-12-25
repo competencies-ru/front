@@ -3,9 +3,7 @@ import React from 'react';
 import { useForm } from 'effector-forms';
 import { useGate, useStore } from 'effector-react';
 
-import { Select } from '@ui';
-
-import { FormItem } from '..';
+import { Select, FormItem } from '@ui';
 
 import { bankFormFirstPartModel } from './model';
 

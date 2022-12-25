@@ -2,6 +2,7 @@ import { Button } from './Button';
 import { Checkbox } from './Checkbox';
 import { Collapse } from './Collapse';
 import { Divider } from './Divider';
+import { FormItem } from './FormItem';
 import { Input } from './Input';
 import { Layout } from './Layout';
 import { Select } from './Select';
@@ -19,4 +20,5 @@ export {
   Textarea,
   Checkbox,
   Collapse,
+  FormItem,
 };
