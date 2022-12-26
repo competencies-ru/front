@@ -1,3 +1,3 @@
 import { uxModel } from './ux';
 
-export { uxModel }
+export { uxModel };

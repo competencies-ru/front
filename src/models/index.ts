@@ -1,4 +1,4 @@
-import { authModel } from './auth'
-import { userModel } from './user'
+import { authModel } from './auth';
+import { userModel } from './user';
 
-export { userModel , authModel }
+export { userModel, authModel };

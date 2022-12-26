@@ -1,0 +1,48 @@
+@import '@styles/colors';
+
+.headerWrapper {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 10px 1fr 40px;
+  gap: 30px;
+
+  .number {
+    color: $green-2;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .select {
+    width: 100%;
+
+    &:last-child {
+      grid-row-start: 2;
+      grid-row-end: 2;
+      grid-column-start: 2;
+      grid-column-end: 2;
+    }
+  }
+}
+
+.divider {
+  margin: 30px -30px;
+  padding: 0 30px;
+}
+
+.addTask {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: $green-2;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+
+  cursor: pointer;
+}

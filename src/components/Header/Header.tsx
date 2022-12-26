@@ -5,8 +5,10 @@ import { useEvent, useStore } from 'effector-react';
 import { Typography, TypographyType } from '@ui/Typography';
 import { authModel, userModel } from 'models';
 
-import { ReactComponent as Logo } from './assets/logo.svg';
-import { ReactComponent as Logout } from './assets/logout.svg';
+import Logo from './assets/logo.svg';
+import Logout from './assets/logout.svg';
+// import { ReactComponent as Logo } from './assets/logo.svg';
+// import { ReactComponent as Logout } from './assets/logout.svg';
 
 import styles from './Header.module.scss';
 

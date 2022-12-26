@@ -1,0 +1,22 @@
+@import '@styles/colors';
+
+.blocksWrapper {
+  > *:not(button) {
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  .addDisciplineOrIndicator {
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: $green-2;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+
+    cursor: pointer;
+  }
+}

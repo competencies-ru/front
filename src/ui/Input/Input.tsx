@@ -1,27 +1,41 @@
 import React from 'react';
 
 import cn from 'classnames';
+import { nanoid } from 'nanoid';
 
 import { Typography, TypographyType } from '../Typography';
 
-import { ReactComponent as EyeClose } from './assets/EyeClose.svg';
-import { ReactComponent as EyeOpen } from './assets/EyeOpen.svg';
+import EyeClose from './assets/EyeClose.svg';
+import EyeOpen from './assets/EyeOpen.svg';
 
 import styles from './Input.module.scss';
 
 type Props = {
   value: string;
   onChange: (v: string) => void;
+  id?: string;
   name?: string;
   type?: React.HTMLInputTypeAttribute;
   disabled?: boolean;
   className?: string;
   errorText?: string;
   placeholder?: string;
+  autocomplete?: string;
 };
 
-const Input: React.FC<Props> = (props) => {
-  const { value, onChange, name, type, disabled, className, errorText, placeholder } = props;
+const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const {
+    value,
+    onChange,
+    id,
+    name,
+    type,
+    disabled,
+    className,
+    errorText,
+    placeholder,
+    autocomplete,
+  } = props;
 
   const [ownType, setOwnType] = React.useState<typeof type>(type);
 
@@ -55,14 +69,17 @@ const Input: React.FC<Props> = (props) => {
         disabled={disabled}
         placeholder={placeholder}
         className={inputStyles}
+        autoComplete={autocomplete}
+        ref={ref}
+        id={id ?? nanoid()}
       />
       {ownType === 'password' && (
-        <button onClick={openPassword} className={styles.eye}>
+        <button onClick={openPassword} className={styles.eye} type="button">
           <EyeOpen />
         </button>
       )}
       {ownType === 'text' && type === 'password' && (
-        <button onClick={closePassword} className={styles.eye}>
+        <button onClick={closePassword} className={styles.eye} type="button">
           <EyeClose />
         </button>
       )}
@@ -73,7 +90,7 @@ const Input: React.FC<Props> = (props) => {
       )}
     </div>
   );
-};
+});
 
 Input.defaultProps = {
   disabled: false,

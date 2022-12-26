@@ -1,0 +1,22 @@
+@import '@styles/colors';
+
+.variants {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 30px;
+}
+
+.addAnswer {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: $green-2;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+
+  cursor: pointer;
+
+  margin-top: 30px;
+}

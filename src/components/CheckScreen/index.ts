@@ -1,1 +1,1 @@
-export { default as CheckScreen } from './CheckScreen'
+export { default as CheckScreen } from './CheckScreen';

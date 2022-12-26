@@ -41,6 +41,6 @@ const form = createForm<ILogin>({
 forward({
   from: form.formValidated,
   to: authModel.login,
-})
+});
 
 export { form };

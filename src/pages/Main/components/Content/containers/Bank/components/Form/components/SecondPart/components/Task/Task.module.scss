@@ -1,0 +1,47 @@
+@import '@styles/colors';
+
+.taskWrapper {
+  &:not(:last-of-type) {
+    margin-bottom: 30px;
+  }
+
+  .task {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 10px 1fr;
+    gap: 30px;
+
+    &:not(:last-of-type) {
+      margin-bottom: 30px;
+    }
+
+    .number {
+      color: $green-2;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 22px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .select {
+      width: 100%;
+    }
+  }
+
+  .contentWrapper {
+    margin-bottom: 30px;
+
+    .textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 30px;
+
+      &.disabled {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

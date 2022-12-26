@@ -1,4 +1,4 @@
-export interface IOption {
+export type Option<T = string> = {
   id: string;
-  value: string;
-}
+  value: T;
+};

@@ -1,0 +1,36 @@
+.collapseWrapper {
+  position: relative;
+
+  border-radius: 20px;
+
+  height: 100%;
+
+  overflow-y: hidden;
+
+  .icon {
+    transition: transform 300ms ease-in-out;
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+    background: transparent;
+
+    right: 30px;
+    top: 35px;
+
+    transform: scaleY(1);
+
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+  }
+
+  &.expanded {
+    border-radius: none;
+
+    .icon {
+      transform: scaleY(-1);
+    }
+  }
+}

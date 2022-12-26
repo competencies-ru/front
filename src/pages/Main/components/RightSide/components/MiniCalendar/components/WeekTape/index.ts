@@ -1,1 +1,1 @@
-export { default as WeekTape } from './WeekTape'
+export { default as WeekTape } from './WeekTape';

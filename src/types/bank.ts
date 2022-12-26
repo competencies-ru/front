@@ -1,29 +1,81 @@
-export interface ILevelOfEducation  {
+export type LevelOfEducation = {
   id: string;
-  level: string;
-}
+  title: string;
+};
 
 export type UGSN = {
-  id: string;
-  name: string;
   code: string;
-}
+  title: string;
+};
 
 export type Speciality = {
-  id: string;
-  name: string;
   code: string;
-}
+  title: string;
+};
 
 export type TrainingDirection = {
-  id: string;
-  name: string;
   code: string;
-}
+  title: string;
+};
 
-export type BankForm = {
-  level: ILevelOfEducation | null;
+export type Competence = {
+  code: string;
+  title: string;
+};
+
+export type EducationInfoBankForm = {
+  level: LevelOfEducation | null;
   ugsn: UGSN | null;
   speciality: Speciality | null;
-  trainingDirection: TrainingDirection | null;
+  TD: TrainingDirection | null;
+  competence: Competence | null;
+};
+
+export enum TaskType {
+  Unknown = 'UNKNOWN',
+  OneVariant = 'ONE_VARIANT',
+  LotOfVariants = 'LOT_OF_VARIANTS',
+  Matching = 'MATCHING',
 }
+
+export type OneVariantAnswerDescription = {
+  id: string;
+  text: string;
+};
+
+export type OneVariantAnswer = {
+  value: number | null;
+  descriptions: OneVariantAnswerDescription[];
+};
+
+export type Answer = OneVariantAnswer;
+
+export type Task<T extends TaskType = TaskType, A extends Answer = Answer> = {
+  id: string;
+  type: T;
+  description: string;
+  answer?: A;
+};
+
+type Indicator = {
+  id: string;
+  title: string;
+};
+
+export type FormIndicator = Indicator & {
+  tasks: Task[];
+};
+
+export type Discipline = {
+  id: string;
+  title: string;
+};
+
+export type FormDiscipline = Discipline & {
+  indicator: FormIndicator;
+};
+
+export type BankForm = {
+  educationInfo: EducationInfoBankForm;
+  disciplines: FormDiscipline[];
+};

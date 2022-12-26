@@ -3,4 +3,4 @@ interface ILogin {
   password: string;
 }
 
-export { ILogin }
+export { ILogin };

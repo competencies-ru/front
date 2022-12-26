@@ -1,1 +1,1 @@
-export { default as LeftSide } from './LeftSide'
+export { default as LeftSide } from './LeftSide';

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { Typography, TypographyType } from '@ui/Typography';
 
-import { ReactComponent as Arrow } from '../../assets/arrow.svg';
+import Arrow from '../../assets/arrow.svg';
+// import { ReactComponent as Arrow } from '../../assets/arrow.svg';
 
 import styles from '../../StyledMainButton.module.scss';
 

@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { ReactComponent as Left } from './assets/left.svg';
-import { ReactComponent as Right } from './assets/right.svg';
+import Left from './assets/left.svg';
+import Right from './assets/right.svg';
+// import { ReactComponent as Left } from './assets/left.svg';
+// import { ReactComponent as Right } from './assets/right.svg';
 import { TimeDropdown } from './components';
 
 import styles from './Controls.module.scss';

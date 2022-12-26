@@ -1,11 +1,10 @@
-@import '~styles/grid';
-@import '~styles/colors';
+@import '@styles/colors';
 
 .wrapper {
   box-sizing: border-box;
 
-  width: grid-width(4);
-  height: 366px;
+  width: 480px;
+  height: 380px;
 
   background-color: $gray-6;
   border-radius: 20px;

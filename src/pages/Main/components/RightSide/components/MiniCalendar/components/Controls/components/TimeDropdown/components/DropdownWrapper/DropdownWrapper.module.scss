@@ -1,5 +1,4 @@
-@import '~styles/colors';
-@import '~styles/grid';
+@import '@styles/colors';
 
 .mainPart {
   position: relative;
@@ -59,7 +58,7 @@
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 
-  width: grid-width(4);
+  width: 100%;
   top: 100%;
   left: 0;
 

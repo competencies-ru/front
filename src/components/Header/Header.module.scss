@@ -1,4 +1,4 @@
-@import '~styles/colors';
+@import '@styles/colors';
 
 .header {
   display: flex;
@@ -6,6 +6,7 @@
   align-items: center;
 
   height: 100%;
+  width: calc(100vw - 2 * 25px);
 
   .projectInfo {
     display: flex;

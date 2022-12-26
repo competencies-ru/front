@@ -2,10 +2,17 @@ import React from 'react';
 
 import { Role } from 'types/user';
 
-import { ReactComponent as Bank } from '../assets/bank.svg';
-import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
-import { ReactComponent as MenuIcon } from '../assets/menu.svg';
-import { ReactComponent as ProfileIcon } from '../assets/profile.svg';
+import BankIcon from '../assets/bank.svg';
+import CalendarIcon from '../assets/calendar.svg';
+import DegreeIcon from '../assets/degree.svg';
+import IndicatorIcon from '../assets/indicator.svg';
+import MenuIcon from '../assets/menu.svg';
+import ProfileIcon from '../assets/profile.svg';
+import UGSNIcon from '../assets/ugsn.svg';
+// import { ReactComponent as Bank } from '../assets/bank.svg';
+// import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
+// import { ReactComponent as MenuIcon } from '../assets/menu.svg';
+// import { ReactComponent as ProfileIcon } from '../assets/profile.svg';
 
 interface IMenuItem {
   name: string;
@@ -35,10 +42,28 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     Icon: ProfileIcon,
   },
   {
-    name: 'Банк вопросов',
+    name: 'Банки вопросов',
     path: '/bank',
-    Icon: Bank,
-    children: ['/new, /edit'],
+    Icon: BankIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Индикаторы',
+    path: '/indicator',
+    Icon: IndicatorIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Уровни',
+    path: '/level',
+    Icon: DegreeIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'УГСН',
+    path: '/ugsn',
+    Icon: UGSNIcon,
+    children: ['/new', '/edit'],
   },
 ];
 

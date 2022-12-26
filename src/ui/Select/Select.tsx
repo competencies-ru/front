@@ -3,28 +3,42 @@ import React from 'react';
 import cn from 'classnames';
 
 import { useClickAway } from '@utils/useClickAway';
-import { IOption } from 'types/select';
+import { Option } from 'types/select';
 
 import { Typography, TypographyType } from '../Typography';
 
-import { ReactComponent as Arrow } from './assets/arrow.svg';
+import Arrow from './assets/arrow.svg';
+import Clear from './assets/clear.svg';
+import Spinner from './assets/spinner.svg';
 
 import styles from './Select.module.scss';
 
 type Props = {
   value: string;
-  options: IOption[];
+  options: Option[];
   onChange: (v: string) => void;
   disabled?: boolean;
+  loading?: boolean;
   className?: string;
   errorText?: string;
   placeholder?: string;
   onInputChange?: (v: string) => void;
+  onClear?: () => void;
 };
 
 const Select: React.FC<Props> = (props) => {
-  const { value, options, onChange, disabled, className, errorText, placeholder, onInputChange } =
-    props;
+  const {
+    value,
+    options,
+    onChange,
+    disabled,
+    loading,
+    className,
+    errorText,
+    placeholder,
+    onInputChange,
+    onClear,
+  } = props;
 
   const [openedOptions, setOpenedOptions] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value);
@@ -35,13 +49,16 @@ const Select: React.FC<Props> = (props) => {
     setInputValue(value);
   }, [value]);
 
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const onChangeInput = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(event.target.value);
 
-    if (onInputChange) {
-      onInputChange(event.target.value);
-    }
-  };
+      if (onInputChange) {
+        onInputChange(event.target.value);
+      }
+    },
+    [onInputChange]
+  );
 
   const onInputBlur = () => {
     setInputValue(value);
@@ -58,13 +75,13 @@ const Select: React.FC<Props> = (props) => {
     setOpenedOptions(false);
   }, []);
 
-  const handleOpenOptions = () => {
-    if (!disabled) {
+  const handleOpenOptions = React.useCallback(() => {
+    if (!disabled && !loading) {
       setOpenedOptions(true);
     }
-  };
+  }, [disabled, loading]);
 
-  const handleSelectOptions =
+  const handleSelectOptions = React.useCallback(
     (id: string | null) => (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
 
@@ -73,55 +90,71 @@ const Select: React.FC<Props> = (props) => {
       if (id) {
         handleChange(id);
       }
-    };
+    },
+    [handleChange]
+  );
 
   useClickAway(selectRef, handleClickAway);
 
   const selectStyles = cn(styles.selectWrapper, className, {
     [styles.error]: !!errorText,
-    [styles.disabled]: !!disabled,
+    [styles.disabled]: !!disabled || !!loading,
+    [styles.clear]: value && onClear,
   });
 
   const arrowStyles = cn(styles.arrow, { [styles.rotated]: openedOptions });
 
-  const inputDisabled = !onInputChange;
+  const inputStyles = cn(styles.input, {
+    [styles.clearInput]: value && onClear,
+  });
+
+  const inputDisabled = !!disabled || !!loading;
 
   return (
-    <div ref={selectRef} className={selectStyles}>
-      <Arrow className={arrowStyles} />
-      <input
-        disabled={inputDisabled}
-        value={inputValue}
-        onChange={onChangeInput}
-        className={styles.input}
-        placeholder={placeholder}
-        onClick={handleOpenOptions}
-        onBlur={onInputBlur}
-      />
-      {openedOptions && (
-        <>
-          <div className={styles.fakeOption} />
-          <div className={styles.optionsWrapper}>
-            {options.length ? (
-              options.map(({ id, value }) => (
-                <button key={id} className={styles.option} onClick={handleSelectOptions(id)}>
-                  <Typography>{value}</Typography>
+    <>
+      <div ref={selectRef} className={selectStyles}>
+        <Arrow className={arrowStyles} onClick={handleOpenOptions} />
+        <input
+          disabled={inputDisabled}
+          value={inputValue}
+          onChange={onChangeInput}
+          className={inputStyles}
+          placeholder={placeholder}
+          onBlur={onInputBlur}
+          onClick={handleOpenOptions}
+        />
+        {value && onClear && (
+          <button type="button" className={styles.clear} onClick={onClear}>
+            <Clear />
+          </button>
+        )}
+        {loading && <Spinner className={styles.spinner} />}
+        {openedOptions && (
+          <>
+            <div className={styles.fakeOption} />
+            <div className={styles.optionsWrapper}>
+              {options.length ? (
+                options.map(({ id, value }) => (
+                  <button key={id} className={styles.option} onClick={handleSelectOptions(id)}>
+                    <Typography>{value}</Typography>
+                  </button>
+                ))
+              ) : (
+                <button className={styles.option} onClick={handleSelectOptions(null)}>
+                  <Typography>Список пустой</Typography>
                 </button>
-              ))
-            ) : (
-              <button className={styles.option} onClick={handleSelectOptions(null)}>
-                <Typography>Список пустой</Typography>
-              </button>
-            )}
-          </div>
-        </>
-      )}
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
       {!!errorText && (
         <Typography type={TypographyType.Div} className={styles.errorText}>
           {errorText}
         </Typography>
       )}
-    </div>
+    </>
   );
 };
 

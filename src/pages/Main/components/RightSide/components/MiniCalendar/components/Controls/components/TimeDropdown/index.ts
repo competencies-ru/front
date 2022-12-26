@@ -1,1 +1,1 @@
-export { default as TimeDropdown } from './TimeDropdown'
+export { default as TimeDropdown } from './TimeDropdown';

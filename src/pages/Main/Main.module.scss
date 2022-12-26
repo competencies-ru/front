@@ -1,9 +1,6 @@
-@import '~styles/colors';
-@import '~styles/grid';
+@import '@styles/colors';
 
 .mainWrapper {
-  position: relative;
-
   box-sizing: border-box;
 
   height: 100vh;
@@ -17,5 +14,9 @@
   .content {
     height: 100%;
     width: 100%;
+
+    display: grid;
+    grid-template-columns: 260px 1fr 368px;
+    gap: 30px;
   }
 }

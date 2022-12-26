@@ -1,6 +1,0 @@
-$grid-width: 70px;
-$gutter-width: 30px;
-
-@function grid-width($n) {
-  @return $n * $grid-width + ($n - 1) * $gutter-width;
-}

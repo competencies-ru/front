@@ -1,0 +1,42 @@
+@import '@styles/colors';
+
+.textarea {
+  resize: none;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+
+  background: #ffffff;
+  box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+
+  outline: none;
+  border: none;
+
+  padding: 15px 30px;
+
+  margin-bottom: 5px;
+
+  &:autofill,
+  &:-webkit-autofill {
+    box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.12);
+  }
+
+  &::placeholder {
+    color: $gray-2;
+  }
+
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.06);
+    box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.22);
+  }
+
+  &.error {
+    box-shadow: inset 2px 2px 13px rgba(255, 0, 0, 0.31);
+  }
+}

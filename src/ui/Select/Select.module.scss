@@ -1,4 +1,4 @@
-@import '~styles/colors';
+@import '@styles/colors';
 
 .selectWrapper {
   position: relative;
@@ -8,7 +8,9 @@
 
   background: transparent;
 
-  height: 40px;
+  height: 50px;
+
+  cursor: pointer;
 
   &.disabled {
     .input {
@@ -24,11 +26,9 @@
   }
 
   .arrow {
-    height: 100%;
-
     position: absolute;
     right: 20px;
-    top: 2px;
+    top: calc(50% - 4px);
     z-index: 124;
 
     transition: transform ease-in-out 300ms;
@@ -38,6 +38,31 @@
     &.rotated {
       transform: scaleY(-1);
     }
+
+    cursor: pointer;
+  }
+
+  .clear,
+  .spinner {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    z-index: 124;
+
+    height: 25px;
+    width: 25px;
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    transform: translateY(-50%);
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .input {
@@ -47,7 +72,7 @@
 
     z-index: 123;
 
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
 
     width: 100%;
@@ -57,14 +82,22 @@
 
     background: #ffffff;
     box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.15);
-    border-radius: 15px;
+    border-radius: 20px;
 
     outline: none;
     border: none;
 
-    padding: 0 50px 0 30px;
+    padding: 0 50px 0 20px;
 
-    cursor: text;
+    cursor: pointer;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &.clearInput {
+      padding: 0 80px 0 20px;
+    }
 
     &:autofill,
     &:-webkit-autofill {
@@ -86,7 +119,7 @@
 
     width: 100%;
 
-    top: -15px;
+    left: 0;
     top: calc(100% - 15px);
     z-index: 122;
 
@@ -105,7 +138,6 @@
     top: 100%;
     left: 0;
 
-    height: 120px;
     overflow-y: auto;
 
     .option {
@@ -117,7 +149,7 @@
 
       box-sizing: border-box;
 
-      padding: 0 30px;
+      padding: 0 20px;
 
       background: $green-8;
 
@@ -142,14 +174,12 @@
       }
     }
   }
+}
 
-  .errorText {
-    position: absolute;
-    bottom: -20px;
-    left: 10px;
+.errorText {
+  padding: 5px 0 0 20px;
 
-    font-size: 14px;
+  font-size: 14px;
 
-    color: $error;
-  }
+  color: $error;
 }

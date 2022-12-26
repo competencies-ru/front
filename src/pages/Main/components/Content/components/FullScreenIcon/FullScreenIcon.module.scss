@@ -1,4 +1,4 @@
-@import '~styles/colors';
+@import '@styles/colors';
 
 $line-width: 100%;
 $line-height: 2px;
@@ -8,6 +8,7 @@ $line-height: 2px;
   top: 0;
   right: 0;
 
+  padding: 0;
   width: 25px;
   height: 25px;
 

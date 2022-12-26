@@ -12,9 +12,11 @@ class Bank extends React.Component {
   static New = New;
 
   render() {
+    const newBankLink = `${window.location.pathname}/new`;
+
     return (
       <>
-        <Link to="/bank/new">
+        <Link to={newBankLink}>
           <Button className={styles.btn}>Создать банк вопросов</Button>
         </Link>
         <Typography type={TypographyType.H3} className={styles.title}>
