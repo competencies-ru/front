@@ -2,9 +2,10 @@ import React from 'react';
 
 import { Role } from 'types/user';
 
-import Bank from '../assets/bank.svg';
+import BankIcon from '../assets/bank.svg';
 import CalendarIcon from '../assets/calendar.svg';
-import Indicator from '../assets/indicator.svg';
+import DegreeIcon from '../assets/degree.svg';
+import IndicatorIcon from '../assets/indicator.svg';
 import MenuIcon from '../assets/menu.svg';
 import ProfileIcon from '../assets/profile.svg';
 // import { ReactComponent as Bank } from '../assets/bank.svg';
@@ -40,16 +41,22 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     Icon: ProfileIcon,
   },
   {
-    name: 'Банк вопросов',
+    name: 'Банки вопросов',
     path: '/bank',
-    Icon: Bank,
-    children: ['/new, /edit'],
+    Icon: BankIcon,
+    children: ['/new', '/edit'],
   },
   {
     name: 'Индикаторы',
     path: '/indicator',
-    Icon: Indicator,
-    children: ['/new, /edit'],
+    Icon: IndicatorIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Уровни',
+    path: '/level',
+    Icon: DegreeIcon,
+    children: ['/new', '/edit'],
   },
 ];
 

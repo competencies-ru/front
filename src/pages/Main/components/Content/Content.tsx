@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 import { FullScreenIcon } from './components';
-import { Bank, Indicator } from './containers';
+import { Bank, Indicator, Level } from './containers';
 
 import styles from './Content.module.scss';
 
@@ -70,6 +70,11 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
               <Route path="/indicator">
                 <Route index element={<Indicator />} />
                 <Route path="new" element={<Indicator.New />} />
+                <Route path=":id" element={<div>edit</div>} />
+              </Route>
+              <Route path="/level">
+                <Route index element={<Level />} />
+                <Route path="new" element={<Level.New />} />
                 <Route path=":id" element={<div>edit</div>} />
               </Route>
               {pathname !== '/' && <Route path="/*" element={<Navigate to="/" />} />}
