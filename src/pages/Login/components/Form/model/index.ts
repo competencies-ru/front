@@ -1,3 +1,3 @@
-import { form } from './model'
+import { form } from './model';
 
-export { form }
+export { form };

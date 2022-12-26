@@ -2,10 +2,10 @@ import { createDomain } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
+import { validationRules } from '@utils';
 import type { CreateLevelForm } from 'types/level';
 
-import { REQUIRED_TEXT_ERROR } from './constants';
-const levelFormDomain = createDomain('indicator form domain');
+const levelFormDomain = createDomain('level form domain');
 levelFormDomain.onCreateStore((store) => store.reset(openGate.close));
 
 // GATES
@@ -17,16 +17,10 @@ const form = createForm<CreateLevelForm>({
   fields: {
     level: {
       init: '',
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
   },
-  validateOn: ['submit', 'change'],
+  validateOn: ['submit'],
 });
 
 export const levelFormModel = {

@@ -1,1 +1,1 @@
-export { default as CustomRouter } from './CustomRouter'
+export { default as CustomRouter } from './CustomRouter';

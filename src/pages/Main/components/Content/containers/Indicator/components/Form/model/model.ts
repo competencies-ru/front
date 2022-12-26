@@ -2,10 +2,10 @@ import { combine, createDomain, forward, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
+import { validationRules } from '@utils';
 import type { LevelOfEducation, UGSN } from 'types/bank';
 import type { CreateIndicatorForm } from 'types/indicator';
 
-import { REQUIRED_TEXT_ERROR } from './constants';
 import { levelModel, ugsnModel, specialityModel, TDModel, competenceModel } from './models';
 
 const indicatorFormDomain = createDomain('indicator form domain');
@@ -20,13 +20,7 @@ const form = createForm<CreateIndicatorForm>({
   fields: {
     level: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     ugsn: {
       init: null,
@@ -39,33 +33,15 @@ const form = createForm<CreateIndicatorForm>({
     },
     competence: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     indicatorCode: {
       init: '',
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     indicator: {
       init: '',
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
   },
   validateOn: ['submit', 'change'],

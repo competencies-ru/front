@@ -1,3 +1,3 @@
 import { FullScreenIcon } from './FullScreenIcon';
 
-export { FullScreenIcon }
+export { FullScreenIcon };

@@ -1,3 +1,3 @@
 import { TimeDropdown } from './TimeDropdown';
 
-export { TimeDropdown }
+export { TimeDropdown };

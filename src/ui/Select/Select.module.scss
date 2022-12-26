@@ -8,7 +8,7 @@
 
   background: transparent;
 
-  height: 100%;
+  height: 50px;
 
   cursor: pointer;
 
@@ -91,6 +91,14 @@
 
     cursor: pointer;
 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &.clearInput {
+      padding: 0 80px 0 20px;
+    }
+
     &:autofill,
     &:-webkit-autofill {
       box-shadow: inset 2px 2px 13px rgba(0, 0, 0, 0.15);
@@ -166,14 +174,12 @@
       }
     }
   }
+}
 
-  .errorText {
-    position: absolute;
-    bottom: -20px;
-    left: 20px;
+.errorText {
+  padding: 5px 0 0 20px;
 
-    font-size: 14px;
+  font-size: 14px;
 
-    color: $error;
-  }
+  color: $error;
 }

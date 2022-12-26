@@ -30,7 +30,7 @@ const Form = () => {
     []
   );
 
-  const onLevelInputChange = React.useCallback(
+  const onSelectInputChange = React.useCallback(
     (key: SelectKeys) => (input: string) => {
       bankFormFirstPartModel.events.changeInput[key](input);
     },
@@ -59,7 +59,7 @@ const Form = () => {
       <FormItem>
         <Select
           value={values.level}
-          onInputChange={onLevelInputChange('level')}
+          onInputChange={onSelectInputChange('level')}
           options={levelOptions}
           onChange={onSelect('level')}
           className={styles.select}
@@ -72,7 +72,7 @@ const Form = () => {
       <FormItem>
         <Select
           value={values.ugsn}
-          onInputChange={onLevelInputChange('ugsn')}
+          onInputChange={onSelectInputChange('ugsn')}
           options={ugsnOptions}
           onChange={onSelect('ugsn')}
           className={styles.select}
@@ -86,7 +86,7 @@ const Form = () => {
       <FormItem>
         <Select
           value={values.speciality}
-          onInputChange={onLevelInputChange('speciality')}
+          onInputChange={onSelectInputChange('speciality')}
           options={specialityOptions}
           onChange={onSelect('speciality')}
           className={styles.select}
@@ -100,7 +100,7 @@ const Form = () => {
       <FormItem>
         <Select
           value={values.TD}
-          onInputChange={onLevelInputChange('TD')}
+          onInputChange={onSelectInputChange('TD')}
           options={TDOptions}
           onChange={onSelect('TD')}
           className={styles.select}
@@ -114,7 +114,7 @@ const Form = () => {
       <FormItem>
         <Select
           value={values.competence}
-          onInputChange={onLevelInputChange('competence')}
+          onInputChange={onSelectInputChange('competence')}
           options={competenceOptions}
           onChange={onSelect('competence')}
           className={styles.select}

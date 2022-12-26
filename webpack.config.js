@@ -10,8 +10,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp =
   (relativePath) =>
-    (relativeSubpath = '') =>
-      path.resolve(appDirectory, relativePath, relativeSubpath);
+  (relativeSubpath = '') =>
+    path.resolve(appDirectory, relativePath, relativeSubpath);
 
 module.exports = {
   entry: './src/index.tsx',

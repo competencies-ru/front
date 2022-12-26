@@ -2,9 +2,9 @@ import { combine, createDomain, forward, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
+import { validationRules } from '@utils';
 import { EducationInfoBankForm, LevelOfEducation, UGSN } from 'types/bank';
 
-import { REQUIRED_TEXT_ERROR } from './constants';
 import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
 import { competenceModel } from './models/competence';
 
@@ -20,53 +20,23 @@ const form = createForm<EducationInfoBankForm>({
   fields: {
     level: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     ugsn: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     speciality: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     TD: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
     competence: {
       init: null,
-      rules: [
-        {
-          name: 'required',
-          errorText: REQUIRED_TEXT_ERROR,
-          validator: (l) => !!l,
-        },
-      ],
+      rules: [validationRules.required()],
     },
   },
   validateOn: ['submit', 'change'],

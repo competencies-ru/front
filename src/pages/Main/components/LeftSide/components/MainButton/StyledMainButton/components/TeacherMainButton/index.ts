@@ -1,1 +1,1 @@
-export { default as TeacherMainButton } from './TeacherMainButton'
+export { default as TeacherMainButton } from './TeacherMainButton';

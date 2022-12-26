@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import styles from './Paper.module.scss';
 
@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const Paper: React.FC<IProps> = ({ children }) => {
-  return <div className={styles.paper}>{children}</div>
-}
+  return <div className={styles.paper}>{children}</div>;
+};
 
 export default Paper;

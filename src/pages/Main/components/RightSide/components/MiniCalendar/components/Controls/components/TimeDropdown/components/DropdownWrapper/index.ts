@@ -1,1 +1,1 @@
-export { default as DropdownWrapper } from './DropdownWrapper'
+export { default as DropdownWrapper } from './DropdownWrapper';

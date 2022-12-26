@@ -18,6 +18,11 @@
   &:hover {
     background-position: 100% 100%;
   }
+
+  &:disabled {
+    transition: none;
+    background: gray;
+  }
 }
 
 @keyframes gradient {

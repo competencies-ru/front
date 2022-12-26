@@ -1,3 +1,3 @@
-import { MiniCalendar } from './MiniCalendar'
+import { MiniCalendar } from './MiniCalendar';
 
-export { MiniCalendar }
+export { MiniCalendar };

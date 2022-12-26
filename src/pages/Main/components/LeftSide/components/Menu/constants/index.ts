@@ -1,3 +1,3 @@
 import { MENU_ITEMS } from './constants';
 
-export { MENU_ITEMS }
+export { MENU_ITEMS };

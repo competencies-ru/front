@@ -12,7 +12,7 @@ import styles from './Form.module.scss';
 const Form = () => {
   useGate(levelFormModel.gates.openGate);
 
-  const { errorText, fields, submit } = useForm(levelFormModel.form);
+  const { errorText, fields, submit, eachValid } = useForm(levelFormModel.form);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,7 +35,7 @@ const Form = () => {
           />
         </FormItem>
         <FormItem>
-          <Button type="submit" className={styles.btn}>
+          <Button type="submit" className={styles.btn} disabled={!eachValid}>
             Создать
           </Button>
         </FormItem>

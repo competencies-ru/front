@@ -99,54 +99,62 @@ const Select: React.FC<Props> = (props) => {
   const selectStyles = cn(styles.selectWrapper, className, {
     [styles.error]: !!errorText,
     [styles.disabled]: !!disabled || !!loading,
+    [styles.clear]: value && onClear,
   });
 
   const arrowStyles = cn(styles.arrow, { [styles.rotated]: openedOptions });
 
+  const inputStyles = cn(styles.input, {
+    [styles.clearInput]: value && onClear,
+  });
+
   const inputDisabled = !!disabled || !!loading;
 
   return (
-    <div ref={selectRef} className={selectStyles}>
-      <Arrow className={arrowStyles} onClick={handleOpenOptions} />
-      <input
-        disabled={inputDisabled}
-        value={inputValue}
-        onChange={onChangeInput}
-        className={styles.input}
-        placeholder={placeholder}
-        onBlur={onInputBlur}
-        onClick={handleOpenOptions}
-      />
-      {value && onClear && (
-        <button type="button" className={styles.clear} onClick={onClear}>
-          <Clear />
-        </button>
-      )}
-      {loading && <Spinner className={styles.spinner} />}
-      {openedOptions && (
-        <>
-          <div className={styles.fakeOption} />
-          <div className={styles.optionsWrapper}>
-            {options.length ? (
-              options.map(({ id, value }) => (
-                <button key={id} className={styles.option} onClick={handleSelectOptions(id)}>
-                  <Typography>{value}</Typography>
+    <>
+      <div ref={selectRef} className={selectStyles}>
+        <Arrow className={arrowStyles} onClick={handleOpenOptions} />
+        <input
+          disabled={inputDisabled}
+          value={inputValue}
+          onChange={onChangeInput}
+          className={inputStyles}
+          placeholder={placeholder}
+          onBlur={onInputBlur}
+          onClick={handleOpenOptions}
+        />
+        {value && onClear && (
+          <button type="button" className={styles.clear} onClick={onClear}>
+            <Clear />
+          </button>
+        )}
+        {loading && <Spinner className={styles.spinner} />}
+        {openedOptions && (
+          <>
+            <div className={styles.fakeOption} />
+            <div className={styles.optionsWrapper}>
+              {options.length ? (
+                options.map(({ id, value }) => (
+                  <button key={id} className={styles.option} onClick={handleSelectOptions(id)}>
+                    <Typography>{value}</Typography>
+                  </button>
+                ))
+              ) : (
+                <button className={styles.option} onClick={handleSelectOptions(null)}>
+                  <Typography>Список пустой</Typography>
                 </button>
-              ))
-            ) : (
-              <button className={styles.option} onClick={handleSelectOptions(null)}>
-                <Typography>Список пустой</Typography>
-              </button>
-            )}
-          </div>
-        </>
-      )}
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
       {!!errorText && (
         <Typography type={TypographyType.Div} className={styles.errorText}>
           {errorText}
         </Typography>
       )}
-    </div>
+    </>
   );
 };
 

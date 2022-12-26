@@ -1,6 +1,5 @@
-import { Content } from './Content'
-import { LeftSide } from './LeftSide'
-import { RightSide } from './RightSide'
+import { Content } from './Content';
+import { LeftSide } from './LeftSide';
+import { RightSide } from './RightSide';
 
-
-export { LeftSide, RightSide, Content }
+export { LeftSide, RightSide, Content };

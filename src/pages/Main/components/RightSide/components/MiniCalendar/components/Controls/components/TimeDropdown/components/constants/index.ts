@@ -1,3 +1,3 @@
-import { MONTHS } from './constants'
+import { MONTHS } from './constants';
 
-export { MONTHS }
+export { MONTHS };

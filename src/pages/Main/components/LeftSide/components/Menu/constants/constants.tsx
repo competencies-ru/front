@@ -8,6 +8,7 @@ import DegreeIcon from '../assets/degree.svg';
 import IndicatorIcon from '../assets/indicator.svg';
 import MenuIcon from '../assets/menu.svg';
 import ProfileIcon from '../assets/profile.svg';
+import UGSNIcon from '../assets/ugsn.svg';
 // import { ReactComponent as Bank } from '../assets/bank.svg';
 // import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
 // import { ReactComponent as MenuIcon } from '../assets/menu.svg';
@@ -56,6 +57,12 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     name: 'Уровни',
     path: '/level',
     Icon: DegreeIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'УГСН',
+    path: '/ugsn',
+    Icon: UGSNIcon,
     children: ['/new', '/edit'],
   },
 ];

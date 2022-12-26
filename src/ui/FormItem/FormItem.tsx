@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const FormItem: React.FC<IProps> = ({ children }) => {
-  return <div className={styles.formItem}>{children}</div>
-}
+  return <div className={styles.formItem}>{children}</div>;
+};
 
-export default React.memo(FormItem)
+export default React.memo(FormItem);
