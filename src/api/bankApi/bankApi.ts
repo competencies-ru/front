@@ -26,7 +26,7 @@ const bankApi = {
   },
   getTrainingDirection: async ({ levelId, ugsnCode, specialtyCode }: GetProgramArgs) => {
     const res = await api.get<TrainingDirection[]>(
-      `/level/${levelId}/ugsn/${ugsnCode}/specialty/${specialtyCode}/programs`
+      `/levels/${levelId}/ugsn/${ugsnCode}/specialty/${specialtyCode}/programs`
     );
     return res.data;
   },

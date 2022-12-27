@@ -30,7 +30,7 @@
 
 ### getTrainingDirection
 - request:
-    url: ^/level/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialty/([a-z0-9-]+)/programs$
+    url: ^/levels/([a-z0-9-]+)/ugsn/([a-z0-9-]+)/specialty/([a-z0-9-]+)/programs$
     method: GET
   response:
     - status: 200
