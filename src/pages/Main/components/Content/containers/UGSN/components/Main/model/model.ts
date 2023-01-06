@@ -6,11 +6,13 @@ import { ugsnApi, levelsApi } from 'api';
 import { Level } from 'types/level';
 import { UGSN } from 'types/ugsn';
 
-const levelOptions = createOptionStore<Level>(levelsApi.getAll);
-
 const UGSNTableGate = createGate<undefined>();
 
-forward({ from: UGSNTableGate.close, to: levelOptions.events.resetAll });
+const levelOptions = createOptionStore<Level>({
+  handler: levelsApi.getAll,
+  dependsOnGetOptions: UGSNTableGate.open,
+  dependsOnResetAll: UGSNTableGate.close,
+});
 
 const UGSNTableDomain = createDomain('ugsn table domain');
 UGSNTableDomain.onCreateStore((store) => store.reset(UGSNTableGate.close));
@@ -25,11 +27,6 @@ const $UGSNs = UGSNTableDomain.createStore<UGSN[]>([])
   .reset([levelOptions.events.clear, levelOptions.events.resetAll]);
 
 const $deletingId = UGSNTableDomain.createStore<string>('').on(deleteUGSN, (_, id) => id);
-
-forward({
-  from: UGSNTableGate.open,
-  to: levelOptions.events.getOptions,
-});
 
 forward({
   from: levelOptions.events.onSelect,

@@ -37,11 +37,14 @@ const Form = () => {
 
   const disabled = React.useMemo(() => !eachValid, [eachValid]);
 
+  const type = React.useMemo(
+    () => (selectedLevel === 'Специалитет' ? 'специализации' : 'образовательной программы'),
+    [selectedLevel]
+  );
+
   const title = React.useMemo(() => {
-    return `${id ? 'Редактирование' : 'Создание'} ${
-      selectedLevel === 'Специалитет' ? 'специальности' : 'направления'
-    }`;
-  }, [id, selectedLevel]);
+    return `${id ? 'Редактирование' : 'Создание'} ${type}`;
+  }, [id, type]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -78,7 +81,7 @@ const Form = () => {
           <Input
             value={fields.specialityCode.value}
             onChange={fields.specialityCode.onChange}
-            placeholder={`Код ${selectedLevel === 'Специалитет' ? 'специальности' : 'направления'}`}
+            placeholder={`Код ${type}`}
             errorText={errorText('specialityCode')}
           />
         </FormItem>
@@ -86,9 +89,7 @@ const Form = () => {
           <Input
             value={fields.speciality.value}
             onChange={fields.speciality.onChange}
-            placeholder={`Название ${
-              selectedLevel === 'Специалитет' ? 'специальности' : 'направления'
-            }`}
+            placeholder={`Название ${type}`}
             errorText={errorText('speciality')}
           />
         </FormItem>

@@ -1,4 +1,4 @@
-import { combine, createDomain, forward, guard, sample } from 'effector';
+import { combine, createDomain, forward, sample } from 'effector';
 import { createGate } from 'effector-react';
 
 import { createEffectWrapper, createOptionStore, toastEvent } from '@utils';
@@ -7,14 +7,20 @@ import { Level } from 'types/level';
 import { Speciality } from 'types/speciality';
 import { UGSN } from 'types/ugsn';
 
-const levelOptions = createOptionStore<Level>(levelsApi.getAll);
-const UGSNOptions = createOptionStore<UGSN, string>(ugsnApi.getAll);
-
 const specialityTableGate = createGate<undefined>();
 
-forward({
-  from: specialityTableGate.close,
-  to: [levelOptions.events.resetAll, UGSNOptions.events.resetAll],
+// options
+const levelOptions = createOptionStore<Level>({
+  handler: levelsApi.getAll,
+  dependsOnGetOptions: specialityTableGate.open,
+  dependsOnResetAll: specialityTableGate.close,
+});
+
+const UGSNOptions = createOptionStore<UGSN, string>({
+  handler: ugsnApi.getAll,
+  dependsOnClear: levelOptions,
+  dependsOnGetOptions: levelOptions,
+  dependsOnResetAll: specialityTableGate.close,
 });
 
 const specialityTableDomain = createDomain('speciality table domain');
@@ -39,24 +45,9 @@ const $specialties = specialityTableDomain
     levelOptions.events.resetAll,
   ]);
 
-forward({
-  from: [levelOptions.events.clear, levelOptions.events.onSelect],
-  to: UGSNOptions.events.clear,
-});
-
 const $deletingId = specialityTableDomain
   .createStore<string>('')
   .on(deleteSpeciality, (_, id) => id);
-
-forward({
-  from: specialityTableGate.open,
-  to: levelOptions.events.getOptions,
-});
-
-forward({
-  from: levelOptions.events.onSelect,
-  to: UGSNOptions.events.getOptions,
-});
 
 sample({
   clock: UGSNOptions.events.onSelect,

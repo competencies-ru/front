@@ -1,4 +1,4 @@
-import { combine, createDomain, forward, guard, sample, split } from 'effector';
+import { createDomain, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
@@ -16,12 +16,8 @@ import type { CreateUGSNForm } from 'types/ugsn';
 
 type CreateUGSNFormWithLevel = Omit<CreateUGSNForm, 'level'> & { level: Level };
 
-const levelOptions = createOptionStore<Level>(levelsApi.getAll);
-
 // GATES
 const openGate = createGate<string | null>();
-
-forward({ from: openGate.close, to: levelOptions.events.resetAll });
 
 const UGSNFormDomain = createDomain('ugsn form domain');
 UGSNFormDomain.onCreateStore((store) => store.reset(openGate.close));
@@ -52,29 +48,6 @@ const form = createForm<CreateUGSNForm>({
 });
 
 sample({
-  clock: levelOptions.events.onSelect,
-  source: levelOptions.stores.options,
-  fn: (options, id) => {
-    const selectedOption = options.find((option) => option.id === id);
-
-    return selectedOption ? selectedOption : null;
-  },
-  target: form.fields.level.onChange,
-});
-
-sample({
-  clock: levelOptions.events.clear,
-  fn: () => null,
-  target: form.fields.level.onChange,
-});
-
-sample({
-  clock: openGate.open,
-  fn: () => undefined,
-  target: levelOptions.events.getOptions,
-});
-
-sample({
   clock: guard({
     source: form.formValidated,
     filter: (form): form is CreateUGSNFormWithLevel => !!form.level,
@@ -95,6 +68,17 @@ sample({
     return `УГСН "${form.ugsnCode} – ${form.ugsn}" создан`;
   },
   target: toastEvent.success,
+});
+
+// options
+const levelOptions = createOptionStore<Level>({
+  handler: levelsApi.getAll,
+  dependsOnForm: {
+    form,
+    key: 'level',
+  },
+  dependsOnGetOptions: sample({ clock: openGate.open, fn: () => undefined }),
+  dependsOnResetAll: openGate.close,
 });
 
 export const UGSNFormModel = {

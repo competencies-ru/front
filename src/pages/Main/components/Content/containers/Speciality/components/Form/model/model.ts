@@ -1,4 +1,4 @@
-import { createDomain, forward, guard, sample } from 'effector';
+import { createDomain, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
@@ -20,26 +20,8 @@ type CreateSpecialityFormWithLevelAndUGSN = Omit<CreateSpecialityForm, 'level' |
   ugsn: UGSN;
 };
 
-const levelOptions = createOptionStore<Level>(levelsApi.getAll);
-const UGSNOptions = createOptionStore<UGSN, string>(ugsnApi.getAll);
-
-forward({
-  from: [levelOptions.events.clear, levelOptions.events.onSelect],
-  to: UGSNOptions.events.clear,
-});
-
-forward({
-  from: levelOptions.events.onSelect,
-  to: UGSNOptions.events.getOptions,
-});
-
 // GATES
 const openGate = createGate<string | null>();
-
-forward({
-  from: openGate.close,
-  to: [levelOptions.events.resetAll, UGSNOptions.events.resetAll],
-});
 
 const specialityFormDomain = createDomain('speciality form domain');
 specialityFormDomain.onCreateStore((store) => store.reset(openGate.close));
@@ -86,24 +68,6 @@ const form = createForm<CreateSpecialityForm>({
 });
 
 sample({
-  clock: openGate.open,
-  fn: () => undefined,
-  target: levelOptions.events.getOptions,
-});
-
-sample({
-  clock: levelOptions.stores.selectedOptionFull.updates,
-  fn: (level) => level,
-  target: form.fields.level.onChange,
-});
-
-sample({
-  clock: UGSNOptions.stores.selectedOptionFull.updates,
-  fn: (ugsn) => ugsn,
-  target: form.fields.ugsn.onChange,
-});
-
-sample({
   clock: guard({
     source: form.formValidated,
     filter: (form): form is CreateSpecialityFormWithLevelAndUGSN => !!form.level && !!form.ugsn,
@@ -126,6 +90,28 @@ sample({
     } – ${form.speciality}" ${form.level.title === 'Специалитет' ? 'создана' : 'создано'}`;
   },
   target: toastEvent.success,
+});
+
+// options
+const levelOptions = createOptionStore<Level, undefined, CreateSpecialityForm>({
+  handler: levelsApi.getAll,
+  dependsOnForm: {
+    form,
+    key: 'level',
+  },
+  dependsOnGetOptions: sample({ clock: openGate.open, fn: () => undefined }),
+  dependsOnResetAll: openGate.close,
+});
+
+const UGSNOptions = createOptionStore<UGSN, string, CreateSpecialityForm>({
+  handler: ugsnApi.getAll,
+  dependsOnClear: levelOptions,
+  dependsOnGetOptions: levelOptions,
+  dependsOnForm: {
+    form,
+    key: 'ugsn',
+  },
+  dependsOnResetAll: openGate.close,
 });
 
 export const specialityFormModel = {

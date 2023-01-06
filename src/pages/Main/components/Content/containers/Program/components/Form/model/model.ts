@@ -1,4 +1,4 @@
-import { createDomain, forward, guard, sample } from 'effector';
+import { createDomain, guard, sample } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
@@ -25,41 +25,7 @@ type CreateProgramFormWithLevelUGSNAndSpeciality = Omit<
   speciality: Speciality;
 };
 
-const levelOptions = createOptionStore<Level>(levelsApi.getAll);
-const UGSNOptions = createOptionStore<UGSN, string>(ugsnApi.getAll);
-const specialityOptions = createOptionStore<Speciality, string>(specialityApi.getAll);
-
-forward({
-  from: [levelOptions.events.clear, levelOptions.events.onSelect],
-  to: [UGSNOptions.events.clear, specialityOptions.events.clear],
-});
-
-forward({
-  from: [UGSNOptions.events.clear, UGSNOptions.events.onSelect],
-  to: specialityOptions.events.clear,
-});
-
-forward({
-  from: levelOptions.events.onSelect,
-  to: UGSNOptions.events.getOptions,
-});
-
-forward({
-  from: UGSNOptions.events.onSelect,
-  to: specialityOptions.events.getOptions,
-});
-
-// GATES
 const openGate = createGate<string | null>();
-
-forward({
-  from: openGate.close,
-  to: [
-    levelOptions.events.resetAll,
-    UGSNOptions.events.resetAll,
-    specialityOptions.events.resetAll,
-  ],
-});
 
 const programFormDomain = createDomain('program form domain');
 programFormDomain.onCreateStore((store) => store.reset(openGate.close));
@@ -68,7 +34,6 @@ const createProgramFx = createEffectWrapper(programFormDomain, {
   handler: programsApi.create,
 });
 
-// FORMS
 const form = createForm<CreateProgramForm>({
   domain: programFormDomain,
   fields: {
@@ -117,30 +82,6 @@ const form = createForm<CreateProgramForm>({
 });
 
 sample({
-  clock: openGate.open,
-  fn: () => undefined,
-  target: levelOptions.events.getOptions,
-});
-
-sample({
-  clock: levelOptions.stores.selectedOptionFull.updates,
-  fn: (level) => level,
-  target: form.fields.level.onChange,
-});
-
-sample({
-  clock: UGSNOptions.stores.selectedOptionFull.updates,
-  fn: (ugsn) => ugsn,
-  target: form.fields.ugsn.onChange,
-});
-
-sample({
-  clock: specialityOptions.stores.selectedOptionFull.updates,
-  fn: (speciality) => speciality,
-  target: form.fields.speciality.onChange,
-});
-
-sample({
   clock: guard({
     source: form.formValidated,
     filter: (form): form is CreateProgramFormWithLevelUGSNAndSpeciality =>
@@ -164,6 +105,39 @@ sample({
     } "${form.programCode} – ${form.program}" создана`;
   },
   target: toastEvent.success,
+});
+
+// options
+const levelOptions = createOptionStore<Level, undefined, CreateProgramForm>({
+  handler: levelsApi.getAll,
+  dependsOnForm: {
+    form,
+    key: 'level',
+  },
+  dependsOnGetOptions: sample({ clock: openGate.open, fn: () => undefined }),
+  dependsOnResetAll: openGate.close,
+});
+
+const UGSNOptions = createOptionStore<UGSN, string, CreateProgramForm>({
+  handler: ugsnApi.getAll,
+  dependsOnClear: levelOptions,
+  dependsOnGetOptions: levelOptions,
+  dependsOnForm: {
+    form,
+    key: 'ugsn',
+  },
+  dependsOnResetAll: openGate.close,
+});
+
+const specialityOptions = createOptionStore<Speciality, string, CreateProgramForm>({
+  handler: specialityApi.getAll,
+  dependsOnClear: [levelOptions, UGSNOptions],
+  dependsOnGetOptions: UGSNOptions,
+  dependsOnForm: {
+    form,
+    key: 'speciality',
+  },
+  dependsOnResetAll: openGate.close,
 });
 
 export const programFormModel = {

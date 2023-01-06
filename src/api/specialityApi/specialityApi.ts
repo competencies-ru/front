@@ -2,7 +2,7 @@ import { Speciality } from 'types/speciality';
 
 import { api } from '../axios';
 
-import type { GetSpecialtiesArgs, CreateSpecialityArgs } from './types';
+import type { CreateSpecialityArgs } from './types';
 
 const specialityApi = {
   getAll: async (ugsnId: string) => {
