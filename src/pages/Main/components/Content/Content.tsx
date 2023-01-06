@@ -7,21 +7,8 @@ import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { Loader } from '@ui';
 
 import { FullScreenIcon } from './components';
-
-const Bank = React.lazy(() => import('./containers/Bank').then((page) => ({ default: page.Bank })));
-const Indicator = React.lazy(() =>
-  import('./containers/Indicator').then((page) => ({ default: page.Indicator }))
-);
-const Level = React.lazy(() =>
-  import('./containers/Level').then((page) => ({ default: page.Level }))
-);
-const UGSN = React.lazy(() => import('./containers/UGSN').then((page) => ({ default: page.UGSN })));
-const Speciality = React.lazy(() =>
-  import('./containers/Speciality').then((page) => ({ default: page.Speciality }))
-);
-const Program = React.lazy(() =>
-  import('./containers/Program').then((page) => ({ default: page.Program }))
-);
+import { Form } from './containers/Form';
+import { Main } from './containers/Main';
 
 import styles from './Content.module.scss';
 
@@ -78,10 +65,22 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
           <FullScreenIcon collapsed={collapsed} onCollapse={onCollapse} />
           <React.Suspense fallback={<Loader />}>
             <Routes>
-              <Route path="/level/*" element={<Level />} />
-              <Route path="/ugsn/*" element={<UGSN />} />
-              <Route path="/speciality/*" element={<Speciality />} />
-              <Route path="/program/*" element={<Program />} />
+              <Route path="/level">
+                <Route index element={<Main.Level />} />
+                <Route path="new" element={<Form.Level />} />
+              </Route>
+              <Route path="/ugsn">
+                <Route index element={<Main.UGSN />} />
+                <Route path="new" element={<Form.UGSN />} />
+              </Route>
+              <Route path="/speciality">
+                <Route index element={<Main.Speciality />} />
+                <Route path="new" element={<Form.Speciality />} />
+              </Route>
+              <Route path="/program">
+                <Route index element={<Main.Program />} />
+                <Route path="new" element={<Form.Program />} />
+              </Route>
               {/* <Route path="/bank">
                 <Route index element={<Bank />} />
                 <Route path="new" element={<Bank.New />} />

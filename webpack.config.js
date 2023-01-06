@@ -28,8 +28,9 @@ module.exports = {
     publicPath: '/',
   },
 
+  watch: true,
+
   devServer: {
-    hot: true,
     compress: true,
     port: 3000,
     historyApiFallback: true,
