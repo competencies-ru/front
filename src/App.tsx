@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { CheckScreen, CustomRouter } from '@components';
+import { Layout, Loader } from '@ui';
+
 const Login = React.lazy(() => import('@pages/Login').then((page) => ({ default: page.Login })));
 const Main = React.lazy(() => import('@pages/Main').then((page) => ({ default: page.Main })));
-import { Layout } from '@ui';
 
 import { history } from './utils';
 
@@ -13,7 +15,7 @@ const App = () => {
   return (
     <CheckScreen>
       <Layout>
-        <React.Suspense fallback={<div>Loading</div>}>
+        <React.Suspense fallback={<Loader />}>
           <CustomRouter history={history}>
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -22,6 +24,7 @@ const App = () => {
           </CustomRouter>
         </React.Suspense>
       </Layout>
+      <ToastContainer theme="light" />
     </CheckScreen>
   );
 };

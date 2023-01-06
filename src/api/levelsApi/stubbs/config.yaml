@@ -1,0 +1,26 @@
+### getLevels
+- request:
+    url: ^/levels$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/getLevels.json
+
+### getLevelById
+- request:
+    url: ^/levels/([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/getLevelById.json
+
+### createLevel
+- request:
+    url: ^/levels$
+    method: POST
+  response:
+    - status: 201

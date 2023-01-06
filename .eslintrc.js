@@ -34,6 +34,7 @@ module.exports = {
     'effector',
   ],
   rules: {
+    'effector/no-unnecessary-combination': 'off',
     'effector/no-watch': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     'object-curly-spacing': ['error', 'always'],

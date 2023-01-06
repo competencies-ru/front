@@ -3,7 +3,7 @@ import React from 'react';
 import { Checkbox } from '@ui/Checkbox';
 import { Input } from '@ui/Input';
 import { Typography, TypographyType } from '@ui/Typography';
-import { OneVariantAnswer } from 'types/bank';
+import { OneVariantAnswer } from 'types/task';
 
 import styles from './OneVariant.module.scss';
 

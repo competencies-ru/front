@@ -1,18 +1,32 @@
-import { combine, createDomain, forward } from 'effector';
+import { combine, createDomain, forward, guard, sample, split } from 'effector';
 import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
-import { validationRules } from '@utils';
+import {
+  createEffectWrapper,
+  createOptionStore,
+  history,
+  toastEvent,
+  validationRules,
+} from '@utils';
 import { UGSNRegExp } from '@utils/constants';
+import { levelsApi, ugsnApi } from 'api';
+import type { Level } from 'types/level';
 import type { CreateUGSNForm } from 'types/ugsn';
 
-import { levelModel } from './models';
+type CreateUGSNFormWithLevel = Omit<CreateUGSNForm, 'level'> & { level: Level };
 
-const UGSNFormDomain = createDomain('UGSN form domain');
-UGSNFormDomain.onCreateStore((store) => store.reset(openGate.close));
+const levelOptions = createOptionStore<Level>(levelsApi.getAll);
 
 // GATES
-const openGate = createGate();
+const openGate = createGate<string | null>();
+
+forward({ from: openGate.close, to: levelOptions.events.resetAll });
+
+const UGSNFormDomain = createDomain('ugsn form domain');
+UGSNFormDomain.onCreateStore((store) => store.reset(openGate.close));
+
+const createUGSNFx = createEffectWrapper(UGSNFormDomain, { handler: ugsnApi.create });
 
 // FORMS
 const form = createForm<CreateUGSNForm>({
@@ -20,6 +34,10 @@ const form = createForm<CreateUGSNForm>({
   fields: {
     level: {
       init: null,
+      rules: [validationRules.required(), validationRules.notNull()],
+    },
+    ugsn: {
+      init: '',
       rules: [validationRules.required()],
     },
     ugsnCode: {
@@ -29,54 +47,60 @@ const form = createForm<CreateUGSNForm>({
         validationRules.regExp(UGSNRegExp, 'Шаблон – xx.00.00, xx не может быть 00'),
       ],
     },
-    ugsn: {
-      init: '',
-      rules: [validationRules.required()],
-    },
   },
   validateOn: ['submit'],
 });
 
-// FORWARDS
-// levels
-forward({
-  from: openGate.open,
-  to: [levelModel.effects.getLevelsOfEducationFx],
+sample({
+  clock: levelOptions.events.onSelect,
+  source: levelOptions.stores.options,
+  fn: (options, id) => {
+    const selectedOption = options.find((option) => option.id === id);
+
+    return selectedOption ? selectedOption : null;
+  },
+  target: form.fields.level.onChange,
 });
 
-// levels integration
-forward({
-  from: levelModel.events.updateLevelField,
-  to: form.fields.level.onChange,
+sample({
+  clock: levelOptions.events.clear,
+  fn: () => null,
+  target: form.fields.level.onChange,
 });
 
-forward({ from: form.fields.level.$value.updates, to: levelModel.events.levelFieldUpdated });
+sample({
+  clock: openGate.open,
+  fn: () => undefined,
+  target: levelOptions.events.getOptions,
+});
 
-export const indicatorFormModel = {
-  events: {
-    select: {
-      level: levelModel.events.selectLevel,
-    },
-    changeInput: {
-      level: levelModel.events.changeLevelInput,
-    },
-    clear: {
-      level: levelModel.events.clearLevel,
-    },
+sample({
+  clock: guard({
+    source: form.formValidated,
+    filter: (form): form is CreateUGSNFormWithLevel => !!form.level,
+  }),
+  fn: (form) => ({
+    levelId: form.level.id,
+    code: form.ugsnCode,
+    title: form.ugsn,
+  }),
+  target: createUGSNFx,
+});
+
+sample({
+  clock: createUGSNFx.done,
+  source: form.$values,
+  fn: (form) => {
+    history.push('/ugsn');
+    return `УГСН "${form.ugsnCode} – ${form.ugsn}" создан`;
   },
-  stores: {
-    options: combine({
-      levelOptions: levelModel.stores.levelOptions,
-    }),
-    values: combine({
-      level: levelModel.stores.levelValue,
-    }),
-    loading: combine({
-      level: levelModel.stores.optionsLoading,
-    }),
-  },
+  target: toastEvent.success,
+});
+
+export const UGSNFormModel = {
   form,
   gates: {
     openGate,
   },
+  levelOptions,
 };

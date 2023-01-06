@@ -1,12 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import {
-  FormDiscipline,
-  OneVariantAnswer,
-  OneVariantAnswerDescription,
-  Task,
-  TaskType,
-} from 'types/bank';
+import { FormDiscipline } from 'types/discipline';
+import { OneVariantAnswer, OneVariantAnswerDescription, Task, TaskType } from 'types/task';
 
 export const generateDefaultDiscipline = (): FormDiscipline => ({
   id: nanoid(),

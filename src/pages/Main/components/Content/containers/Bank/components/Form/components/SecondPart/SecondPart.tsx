@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'effector-forms';
 
 import { Typography, TypographyType, Collapse } from '@ui';
-import { TaskType } from 'types/bank';
+import { TaskType } from 'types/task';
 
 import { Block, Task } from './components';
 import { bankFormSecondPartModel } from './model';

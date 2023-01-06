@@ -1,30 +1,26 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import { Button, Typography, TypographyType } from '@ui';
+import { Loader } from '@ui/Loader';
 
-import { New } from './components';
+const Main = React.lazy(() =>
+  import('./components/Main').then((component) => ({ default: component.Main }))
+);
+const Form = React.lazy(() =>
+  import('./components/Form').then((component) => ({ default: component.Form }))
+);
 
-import styles from './Level.module.scss';
+const Level = () => (
+  <React.Suspense fallback={<Loader />}>
+    <Routes>
+      <Route path="">
+        <Route index element={<Main />} />
+        <Route path="new" element={<Form />} />
+        {/* <Route path=":id" element={<Form />} /> */}
+      </Route>
+    </Routes>
+  </React.Suspense>
+);
 
-class Level extends React.Component {
-  static New = New;
-
-  render() {
-    const newLevelLink = `${window.location.pathname}/new`;
-
-    return (
-      <>
-        <Link to={newLevelLink}>
-          <Button className={styles.btn}>Создать уровень</Button>
-        </Link>
-        <Typography type={TypographyType.H3} className={styles.title}>
-          Уровни
-        </Typography>
-      </>
-    );
-  }
-}
-
-export default Level;
+export default React.memo(Level);

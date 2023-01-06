@@ -18,4 +18,9 @@ export const rules = {
     validator: (value) => regExp.test(value),
     errorText: errorText,
   }),
+  notSame: (currentValue: string): Rule<string> => ({
+    name: 'same',
+    validator: (value) => currentValue !== value,
+    errorText: `Значение не должно совпадать с "${currentValue}"`,
+  }),
 };

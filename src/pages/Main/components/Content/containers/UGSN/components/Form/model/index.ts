@@ -1,3 +1,3 @@
-import { indicatorFormModel } from './model';
+import { UGSNFormModel } from './model';
 
-export { indicatorFormModel };
+export { UGSNFormModel };

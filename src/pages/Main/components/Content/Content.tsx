@@ -4,8 +4,24 @@ import { useSpring, animated } from '@react-spring/web';
 import cn from 'classnames';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
+import { Loader } from '@ui';
+
 import { FullScreenIcon } from './components';
-import { Bank, Indicator, Level, UGSN } from './containers';
+
+const Bank = React.lazy(() => import('./containers/Bank').then((page) => ({ default: page.Bank })));
+const Indicator = React.lazy(() =>
+  import('./containers/Indicator').then((page) => ({ default: page.Indicator }))
+);
+const Level = React.lazy(() =>
+  import('./containers/Level').then((page) => ({ default: page.Level }))
+);
+const UGSN = React.lazy(() => import('./containers/UGSN').then((page) => ({ default: page.UGSN })));
+const Speciality = React.lazy(() =>
+  import('./containers/Speciality').then((page) => ({ default: page.Speciality }))
+);
+const Program = React.lazy(() =>
+  import('./containers/Program').then((page) => ({ default: page.Program }))
+);
 
 import styles from './Content.module.scss';
 
@@ -60,9 +76,13 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
       <div className={contentStyles}>
         <div className={styles.content}>
           <FullScreenIcon collapsed={collapsed} onCollapse={onCollapse} />
-          <React.Suspense fallback={<div>Loading</div>}>
+          <React.Suspense fallback={<Loader />}>
             <Routes>
-              <Route path="/bank">
+              <Route path="/level/*" element={<Level />} />
+              <Route path="/ugsn/*" element={<UGSN />} />
+              <Route path="/speciality/*" element={<Speciality />} />
+              <Route path="/program/*" element={<Program />} />
+              {/* <Route path="/bank">
                 <Route index element={<Bank />} />
                 <Route path="new" element={<Bank.New />} />
                 <Route path=":id" element={<div>edit</div>} />
@@ -71,17 +91,13 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
                 <Route index element={<Indicator />} />
                 <Route path="new" element={<Indicator.New />} />
                 <Route path=":id" element={<div>edit</div>} />
-              </Route>
-              <Route path="/level">
-                <Route index element={<Level />} />
-                <Route path="new" element={<Level.New />} />
-                <Route path=":id" element={<div>edit</div>} />
-              </Route>
-              <Route path="/ugsn">
+              </Route> */}
+
+              {/* <Route path="/ugsn">
                 <Route index element={<UGSN />} />
                 <Route path="new" element={<UGSN.New />} />
                 <Route path=":id" element={<div>edit</div>} />
-              </Route>
+              </Route> */}
               {pathname !== '/' && <Route path="/*" element={<Navigate to="/" />} />}
             </Routes>
           </React.Suspense>

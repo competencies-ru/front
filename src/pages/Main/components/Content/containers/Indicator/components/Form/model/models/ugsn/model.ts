@@ -1,13 +1,13 @@
 import { createDomain, sample } from 'effector';
-import { createReEffect } from 'effector-reeffect';
 
-import { bankApi } from 'api';
-import type { UGSN } from 'types/bank';
+import { createEffectWrapper } from '@utils';
+import { ugsnApi } from 'api';
 import type { Option } from 'types/select';
+import type { UGSN } from 'types/ugsn';
 
 const ugsnDomain = createDomain('ugsn domain');
 
-const getUGSNFx = createReEffect({ handler: bankApi.getUGSN });
+const getUGSNFx = createEffectWrapper(ugsnDomain, { handler: ugsnApi.getAll });
 
 // EVENTS
 const selectUGSN = ugsnDomain.createEvent<string>();
@@ -22,9 +22,9 @@ const $listOfUGSN = ugsnDomain
   .on(getUGSNFx.doneData, (_, ugsnList) => ugsnList);
 
 const $UGSNOptions = ugsnDomain.createStore<Option[]>([]).on(getUGSNFx.doneData, (_, ugsnList) =>
-  ugsnList.map(({ code, title }) => ({
-    id: code,
-    value: `${code}–${title}`,
+  ugsnList.map(({ id, code, title }) => ({
+    id,
+    value: `${code} – ${title}`,
   }))
 );
 
@@ -39,8 +39,9 @@ sample({
 
     if (selectedUGSN) {
       return {
-        code: selectedUGSN.id,
-        title: selectedUGSN.value,
+        id: selectedUGSN.id,
+        code: selectedUGSN.value.split(' – ')[0],
+        title: selectedUGSN.value.split(' – ')[0],
       };
     }
 
@@ -62,7 +63,7 @@ sample({
     const foundUGSN = ugsnList.find((u) => u.id === ug?.code ?? -1);
 
     if (foundUGSN) {
-      return `${foundUGSN.id}–${foundUGSN.value}`;
+      return `${foundUGSN.id} – ${foundUGSN.value}`;
     }
 
     return '';
@@ -75,18 +76,22 @@ sample({
   source: $listOfUGSN,
   fn: (ugsn, input) =>
     ugsn
-      .filter((u) => `${u.code}–${u.title}`.includes(input))
+      .filter((u) => `${u.code} – ${u.title}`.includes(input))
       .map(({ code, title }) => ({
         id: code,
-        value: `${code}–${title}`,
+        value: `${code} – ${title}`,
       })),
   target: $UGSNOptions,
 });
 
 // values
-const $UGSNValue = ugsnDomain
-  .createStore<string>('')
-  .on(UGSNFieldUpdated, (_, ugsn) => ugsn?.title ?? '');
+const $UGSNValue = ugsnDomain.createStore<string>('').on(UGSNFieldUpdated, (_, ugsn) => {
+  if (ugsn) {
+    return `${ugsn.code} – ${ugsn.title}`;
+  }
+
+  return '';
+});
 
 export const ugsnModel = {
   events: {

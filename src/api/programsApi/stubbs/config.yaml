@@ -1,0 +1,16 @@
+### getPrograms
+- request:
+    url: ^/specialty/([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/programs$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/getPrograms.json
+
+### createProgram
+- request:
+    url: ^/specialty/([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/programs$
+    method: POST
+  response:
+    - status: 201

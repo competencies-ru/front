@@ -1,7 +1,8 @@
 import { createDomain, sample } from 'effector';
 import { createForm } from 'effector-forms';
 
-import { FormDiscipline, TaskType } from 'types/bank';
+import { FormDiscipline } from 'types/discipline';
+import { TaskType } from 'types/task';
 
 import { bankFormFirstPartModel } from '../../FirstPart/model';
 

@@ -3,9 +3,11 @@ import { createForm } from 'effector-forms';
 import { createGate } from 'effector-react';
 
 import { validationRules } from '@utils';
-import { EducationInfoBankForm, LevelOfEducation, UGSN } from 'types/bank';
+import { EducationInfoBankForm } from 'types/bank';
+import { Level } from 'types/level';
+import { UGSN } from 'types/ugsn';
 
-import { levelModel, ugsnModel, specialityModel, TDModel } from './models';
+import { levelModel, ugsnModel, specialityModel, programModel } from './models';
 import { competenceModel } from './models/competence';
 
 const bankFormFirstPartDomain = createDomain('bank form first part domain');
@@ -30,7 +32,7 @@ const form = createForm<EducationInfoBankForm>({
       init: null,
       rules: [validationRules.required()],
     },
-    TD: {
+    program: {
       init: null,
       rules: [validationRules.required()],
     },
@@ -44,7 +46,7 @@ const form = createForm<EducationInfoBankForm>({
 
 form.fields.ugsn.$value.reset(levelModel.events.selectLevel);
 form.fields.speciality.$value.reset([levelModel.events.selectLevel, ugsnModel.events.selectUGSN]);
-form.fields.TD.$value.reset([
+form.fields.program.$value.reset([
   levelModel.events.selectLevel,
   ugsnModel.events.selectUGSN,
   specialityModel.events.selectSpeciality,
@@ -56,7 +58,7 @@ sample({
   clock: ugsnModel.events.selectUGSN,
   source: guard({
     source: form.fields.level.$value,
-    filter: (level): level is LevelOfEducation => Boolean(level),
+    filter: (level): level is Level => Boolean(level),
   }),
   fn: (level, ugsnCode) => ({ ugsnCode, levelId: level.id }),
   target: specialityModel.effects.getSpecialityFx,
@@ -70,7 +72,7 @@ sample({
       level: form.fields.level.$value,
       ugsn: form.fields.ugsn.$value,
     },
-    filter: (levelAndUgsn): levelAndUgsn is { level: LevelOfEducation; ugsn: UGSN } =>
+    filter: (levelAndUgsn): levelAndUgsn is { level: Level; ugsn: UGSN } =>
       Boolean(levelAndUgsn.level) && Boolean(levelAndUgsn.ugsn),
   }),
   fn: ({ level, ugsn }, specialtyCode) => ({
@@ -78,14 +80,14 @@ sample({
     levelId: level.id,
     specialtyCode,
   }),
-  target: TDModel.effects.getTDFx,
+  target: programModel.effects.getProgramFx,
 });
 
 // FORWARDS
 // levels
 forward({
   from: openGate.open,
-  to: [levelModel.effects.getLevelsOfEducationFx, competenceModel.effects.getCompetenceFx],
+  to: [levelModel.effects.getLevelsFx, competenceModel.effects.getCompetenceFx],
 });
 
 forward({
@@ -120,15 +122,15 @@ forward({
   to: specialityModel.events.specialityFieldUpdated,
 });
 
-// TD integration
+// program integration
 forward({
-  from: TDModel.events.updateTDField,
-  to: form.fields.TD.onChange,
+  from: programModel.events.updateProgramField,
+  to: form.fields.program.onChange,
 });
 
 forward({
-  from: form.fields.TD.$value.updates,
-  to: TDModel.events.TDFieldUpdated,
+  from: form.fields.program.$value.updates,
+  to: programModel.events.programFieldUpdated,
 });
 
 // competence integration
@@ -145,17 +147,21 @@ forward({
 // clears
 forward({
   from: specialityModel.events.clearSpeciality,
-  to: TDModel.events.clearTD,
+  to: programModel.events.clearProgram,
 });
 
 forward({
   from: ugsnModel.events.clearUGSN,
-  to: [specialityModel.events.clearSpeciality, TDModel.events.clearTD],
+  to: [specialityModel.events.clearSpeciality, programModel.events.clearProgram],
 });
 
 forward({
   from: levelModel.events.clearLevel,
-  to: [ugsnModel.events.clearUGSN, specialityModel.events.clearSpeciality, TDModel.events.clearTD],
+  to: [
+    ugsnModel.events.clearUGSN,
+    specialityModel.events.clearSpeciality,
+    programModel.events.clearProgram,
+  ],
 });
 
 export const bankFormFirstPartModel = {
@@ -164,21 +170,21 @@ export const bankFormFirstPartModel = {
       level: levelModel.events.selectLevel,
       ugsn: ugsnModel.events.selectUGSN,
       speciality: specialityModel.events.selectSpeciality,
-      TD: TDModel.events.selectTD,
+      program: programModel.events.selectProgram,
       competence: competenceModel.events.selectCompetence,
     },
     changeInput: {
       level: levelModel.events.changeLevelInput,
       ugsn: ugsnModel.events.changeUGSNInput,
       speciality: specialityModel.events.changeSpecialityInput,
-      TD: TDModel.events.changeTDInput,
+      program: programModel.events.changeProgramInput,
       competence: competenceModel.events.changeCompetenceInput,
     },
     clear: {
       level: levelModel.events.clearLevel,
       ugsn: ugsnModel.events.clearUGSN,
       speciality: specialityModel.events.clearSpeciality,
-      TD: TDModel.events.clearTD,
+      program: programModel.events.clearProgram,
       competence: competenceModel.events.clearCompetence,
     },
   },
@@ -187,21 +193,21 @@ export const bankFormFirstPartModel = {
       levelOptions: levelModel.stores.levelOptions,
       ugsnOptions: ugsnModel.stores.UGSNOptions,
       specialityOptions: specialityModel.stores.specialityOptions,
-      TDOptions: TDModel.stores.TDOptions,
+      programOptions: programModel.stores.programOptions,
       competenceOptions: competenceModel.stores.competenceOptions,
     }),
     values: combine({
       level: levelModel.stores.levelValue,
       ugsn: ugsnModel.stores.UGSNValue,
       speciality: specialityModel.stores.specialityValue,
-      TD: TDModel.stores.TDValue,
+      program: programModel.stores.programValue,
       competence: competenceModel.stores.competenceValue,
     }),
     loading: combine({
       level: levelModel.stores.optionsLoading,
       ugsn: ugsnModel.stores.optionsLoading,
       speciality: specialityModel.stores.optionsLoading,
-      TD: TDModel.stores.optionsLoading,
+      program: programModel.stores.optionsLoading,
       competence: competenceModel.stores.optionsLoading,
     }),
   },

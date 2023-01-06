@@ -10,8 +10,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp =
   (relativePath) =>
-  (relativeSubpath = '') =>
-    path.resolve(appDirectory, relativePath, relativeSubpath);
+    (relativeSubpath = '') =>
+      path.resolve(appDirectory, relativePath, relativeSubpath);
 
 module.exports = {
   entry: './src/index.tsx',
@@ -65,21 +65,16 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
+      // {
+      //   test: /\.tsx?$/,
+      //   use: 'ts-loader',
+      //   exclude: /node_modules/,
+      // },
 
       {
-        test: /\.js$/,
+        test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-          },
-        },
+        use: { loader: 'babel-loader' },
       },
 
       {

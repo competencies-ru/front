@@ -1,5 +1,5 @@
-import { TaskType } from 'types/bank';
 import { Option } from 'types/select';
+import { TaskType } from 'types/task';
 
 export const TASK_TYPES = {
   [TaskType.Unknown]: '',

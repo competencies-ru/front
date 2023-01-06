@@ -1,13 +1,13 @@
 import { createDomain, sample } from 'effector';
-import { createReEffect } from 'effector-reeffect';
 
-import { bankApi } from 'api';
-import type { Speciality } from 'types/bank';
+import { createEffectWrapper } from '@utils';
+import { specialityApi } from 'api';
 import type { Option } from 'types/select';
+import type { Speciality } from 'types/speciality';
 
 const specialityDomain = createDomain('speciality domain');
 
-const getSpecialityFx = createReEffect({ handler: bankApi.getSpeciality });
+const getSpecialityFx = createEffectWrapper(specialityDomain, { handler: specialityApi.getAll });
 
 // EVENTS
 const selectSpeciality = specialityDomain.createEvent<string>();
@@ -24,9 +24,9 @@ const $listOfSpeciality = specialityDomain
 const $specialityOptions = specialityDomain
   .createStore<Option[]>([])
   .on(getSpecialityFx.doneData, (_, specialityList) =>
-    specialityList.map(({ code, title }) => ({
-      id: code,
-      value: `${code}–${title}`,
+    specialityList.map(({ id, code, title }) => ({
+      id,
+      value: `${code} – ${title}`,
     }))
   );
 
@@ -43,8 +43,9 @@ sample({
 
     if (selectedSpeciality) {
       return {
-        code: selectedSpeciality.id,
-        title: selectedSpeciality.value,
+        id: selectedSpeciality.id,
+        code: selectedSpeciality.value.split(' – ')[0],
+        title: selectedSpeciality.value.split(' – ')[1],
       };
     }
 
@@ -66,7 +67,7 @@ sample({
     const foundSpeciality = specialityList.find((s) => s.id === sp?.code ?? -1);
 
     if (foundSpeciality) {
-      return `${foundSpeciality.id}–${foundSpeciality.value}`;
+      return `${foundSpeciality.id} – ${foundSpeciality.value}`;
     }
 
     return '';
@@ -79,10 +80,10 @@ sample({
   source: $listOfSpeciality,
   fn: (specialityList, input) =>
     specialityList
-      .filter((s) => `${s.code}–${s.title}`.includes(input))
+      .filter((s) => `${s.code} – ${s.title}`.includes(input))
       .map(({ code, title }) => ({
         id: code,
-        value: `${code}–${title}`,
+        value: `${code} – ${title}`,
       })),
   target: $specialityOptions,
 });
@@ -90,7 +91,13 @@ sample({
 // values
 const $specialityValue = specialityDomain
   .createStore<string>('')
-  .on(specialityFieldUpdated, (_, speciality) => speciality?.title ?? '');
+  .on(specialityFieldUpdated, (_, speciality) => {
+    if (speciality) {
+      return `${speciality.code} – ${speciality.title}`;
+    }
+
+    return '';
+  });
 
 export const specialityModel = {
   events: {

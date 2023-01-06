@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TaskType } from 'types/bank';
+import { TaskType } from 'types/task';
 
 import { OneVariant } from './components';
 

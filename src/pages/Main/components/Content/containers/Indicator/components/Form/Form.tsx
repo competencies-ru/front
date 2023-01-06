@@ -13,9 +13,8 @@ type SelectKeys = keyof typeof indicatorFormModel.events.select;
 const Form = () => {
   useGate(indicatorFormModel.gates.openGate);
 
-  const { levelOptions, ugsnOptions, specialityOptions, TDOptions, competenceOptions } = useStore(
-    indicatorFormModel.stores.options
-  );
+  const { levelOptions, ugsnOptions, specialityOptions, programOptions, competenceOptions } =
+    useStore(indicatorFormModel.stores.options);
 
   const values = useStore(indicatorFormModel.stores.values);
   const loading = useStore(indicatorFormModel.stores.loading);
@@ -54,7 +53,7 @@ const Form = () => {
     [values.level]
   );
 
-  const TDPlaceholder = React.useMemo(
+  const programPlaceholder = React.useMemo(
     () => (values.level === 'Специалитет' ? 'Специализация' : 'Образовательная программа'),
     [values.level]
   );
@@ -108,16 +107,16 @@ const Form = () => {
         </FormItem>
         <FormItem>
           <Select
-            value={values.TD}
-            onInputChange={onSelectInputChange('TD')}
-            options={TDOptions}
-            onChange={onSelect('TD')}
+            value={values.program}
+            onInputChange={onSelectInputChange('program')}
+            options={programOptions}
+            onChange={onSelect('program')}
             className={styles.select}
-            placeholder={TDPlaceholder}
-            errorText={errorText('TD')}
-            onClear={onClear('TD')}
+            placeholder={programPlaceholder}
+            errorText={errorText('program')}
+            onClear={onClear('program')}
             disabled={!values.speciality}
-            loading={loading.TD}
+            loading={loading.program}
           />
         </FormItem>
         <FormItem>

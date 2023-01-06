@@ -1,11 +1,12 @@
+/* eslint-disable import/no-unassigned-import */
 import React from 'react';
 
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
 
-// eslint-disable-next-line import/no-unassigned-import
 import '@styles/index.css';
+import '@styles/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

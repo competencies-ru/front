@@ -3,11 +3,13 @@ import React from 'react';
 import { Role } from 'types/user';
 
 import BankIcon from '../assets/bank.svg';
-import CalendarIcon from '../assets/calendar.svg';
+// import CalendarIcon from '../assets/calendar.svg';
+import SpecialityIcon from '../assets/brick.svg';
 import DegreeIcon from '../assets/degree.svg';
 import IndicatorIcon from '../assets/indicator.svg';
 import MenuIcon from '../assets/menu.svg';
-import ProfileIcon from '../assets/profile.svg';
+import ProgramIcon from '../assets/program.svg';
+// import ProfileIcon from '../assets/profile.svg';
 import UGSNIcon from '../assets/ugsn.svg';
 // import { ReactComponent as Bank } from '../assets/bank.svg';
 // import { ReactComponent as CalendarIcon } from '../assets/calendar.svg';
@@ -32,28 +34,6 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     Icon: MenuIcon,
   },
   {
-    name: 'Календарь',
-    path: '/calendar',
-    Icon: CalendarIcon,
-  },
-  {
-    name: 'Профиль',
-    path: '/profile',
-    Icon: ProfileIcon,
-  },
-  {
-    name: 'Банки вопросов',
-    path: '/bank',
-    Icon: BankIcon,
-    children: ['/new', '/edit'],
-  },
-  {
-    name: 'Индикаторы',
-    path: '/indicator',
-    Icon: IndicatorIcon,
-    children: ['/new', '/edit'],
-  },
-  {
     name: 'Уровни',
     path: '/level',
     Icon: DegreeIcon,
@@ -65,6 +45,40 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     Icon: UGSNIcon,
     children: ['/new', '/edit'],
   },
+  {
+    name: 'Напр./Спец.',
+    path: '/speciality',
+    Icon: SpecialityIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Обр. пр./Спец.',
+    path: '/program',
+    Icon: ProgramIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Индикаторы',
+    path: '/indicator',
+    Icon: IndicatorIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Банки вопросов',
+    path: '/bank',
+    Icon: BankIcon,
+    children: ['/new', '/edit'],
+  },
+  // {
+  //   name: 'Календарь',
+  //   path: '/calendar',
+  //   Icon: CalendarIcon,
+  // },
+  // {
+  //   name: 'Профиль',
+  //   path: '/profile',
+  //   Icon: ProfileIcon,
+  // },
 ];
 
 const STUDENT_MENU_ITEMS: IMenuItem[] = [
@@ -73,16 +87,16 @@ const STUDENT_MENU_ITEMS: IMenuItem[] = [
     path: '/',
     Icon: MenuIcon,
   },
-  {
-    name: 'Календарь',
-    path: '/calendar',
-    Icon: CalendarIcon,
-  },
-  {
-    name: 'Профиль',
-    path: '/profile',
-    Icon: ProfileIcon,
-  },
+  // {
+  //   name: 'Календарь',
+  //   path: '/calendar',
+  //   Icon: CalendarIcon,
+  // },
+  // {
+  //   name: 'Профиль',
+  //   path: '/profile',
+  //   Icon: ProfileIcon,
+  // },
 ];
 
 export const MENU_ITEMS: MenuItemsByRole = {

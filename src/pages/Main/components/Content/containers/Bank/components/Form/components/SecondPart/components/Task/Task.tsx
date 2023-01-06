@@ -6,7 +6,7 @@ import { Select } from '@ui/Select';
 import { Textarea } from '@ui/Textarea';
 import { Typography, TypographyType } from '@ui/Typography';
 import { TASK_TYPES, TASK_TYPES_OPTIONS, TASK_TYPES_OPTIONS_TEXT } from 'constants/tasks';
-import { TaskType, type Task as TTask } from 'types/bank';
+import { TaskType, type Task as TTask } from 'types/task';
 
 import { Answer } from './components';
 

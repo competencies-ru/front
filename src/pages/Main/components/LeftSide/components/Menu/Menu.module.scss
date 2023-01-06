@@ -58,9 +58,16 @@
     &.active {
       background-color: $gray-1;
 
-      .iconWrapper > svg > path {
-        fill: $green-2;
-        stroke: $green-2;
+      .iconWrapper > svg {
+        > path {
+          fill: $green-2;
+        }
+
+        > ellipse,
+        > circle,
+        > path {
+          stroke: $green-2;
+        }
       }
 
       .title {

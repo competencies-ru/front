@@ -1,0 +1,78 @@
+@import '@styles/colors';
+
+.emptyWrapper {
+  height: 200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: $green-3;
+}
+
+.loadingWrapper {
+  height: 200px;
+}
+
+.modalItem {
+  color: $green-3;
+}
+
+.modalBtnWrapper {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  > * {
+    width: 100px;
+    height: 50px;
+
+    font-size: 18px;
+  }
+}
+
+.table {
+  margin-top: 30px;
+
+  .row {
+    display: grid;
+    // 30px 22px edit trash
+    grid-template-columns: 50px 1fr;
+    column-gap: 15px;
+
+    height: 50px;
+
+    padding: 0 20px;
+
+    &:first-of-type {
+      margin-bottom: 5px;
+    }
+
+    &:not(:first-of-type) {
+      background-color: #04373008;
+      border: 1px solid $green-8;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    &:last-of-type {
+      margin: 0;
+    }
+
+    > *:not(button) {
+      display: flex;
+      align-items: center;
+      color: $green-3;
+    }
+
+    > button {
+      outline: none;
+      border: none;
+      background-color: transparent;
+
+      cursor: pointer;
+    }
+  }
+}

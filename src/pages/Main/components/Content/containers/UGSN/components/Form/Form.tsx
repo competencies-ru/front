@@ -2,68 +2,51 @@ import React from 'react';
 
 import { useForm } from 'effector-forms';
 import { useGate, useStore } from 'effector-react';
+import { useParams } from 'react-router';
 
 import { Button, FormItem, Input, Select, Typography, TypographyType } from '@ui';
 
-import { indicatorFormModel as UGSNFormModel } from './model';
+import { UGSNFormModel } from './model';
 
 import styles from './Form.module.scss';
-type SelectKeys = keyof typeof UGSNFormModel.events.select;
 
 const Form = () => {
-  useGate(UGSNFormModel.gates.openGate);
+  const { id } = useParams<{ id?: string; levelId?: string }>();
+  useGate(UGSNFormModel.gates.openGate, id ?? null);
 
-  const { levelOptions } = useStore(UGSNFormModel.stores.options);
+  const { errorText, fields, eachValid, submit } = useForm(UGSNFormModel.form);
 
-  const values = useStore(UGSNFormModel.stores.values);
-  const loading = useStore(UGSNFormModel.stores.loading);
+  const levelOptions = useStore(UGSNFormModel.levelOptions.stores.userOptions);
+  const selectedLevel = useStore(UGSNFormModel.levelOptions.stores.selectedOption);
+  const levelLoading = useStore(UGSNFormModel.levelOptions.stores.loading);
 
-  const { errorText, fields, submit, eachValid } = useForm(UGSNFormModel.form);
+  const handleSubmit = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    submit();
-  };
-
-  const onSelect = React.useCallback(
-    (key: SelectKeys) => (id: string) => {
-      UGSNFormModel.events.select[key](id);
+      submit();
     },
-    []
+    [submit]
   );
 
-  const onLevelInputChange = React.useCallback(
-    (key: SelectKeys) => (input: string) => {
-      UGSNFormModel.events.changeInput[key](input);
-    },
-    []
-  );
-
-  const onClear = React.useCallback(
-    (key: SelectKeys) => () => {
-      UGSNFormModel.events.clear[key]();
-    },
-    []
-  );
+  const disabled = React.useMemo(() => !eachValid, [eachValid]);
 
   return (
     <form onSubmit={handleSubmit}>
       <Typography type={TypographyType.H3} className={styles.title}>
-        Создание индикатора
+        {id ? 'Редактирование УГСН' : 'Создание УГСН'}
       </Typography>
       <>
         <FormItem>
           <Select
-            value={values.level}
-            onInputChange={onLevelInputChange('level')}
-            options={levelOptions}
-            onChange={onSelect('level')}
-            className={styles.select}
             placeholder="Уровень"
+            value={selectedLevel}
+            options={levelOptions}
+            onChange={UGSNFormModel.levelOptions.events.onSelect}
+            onInputChange={UGSNFormModel.levelOptions.events.onInput}
+            loading={levelLoading}
+            onClear={UGSNFormModel.levelOptions.events.clear}
             errorText={errorText('level')}
-            onClear={onClear('level')}
-            loading={loading.level}
           />
         </FormItem>
         <FormItem>
@@ -83,8 +66,8 @@ const Form = () => {
           />
         </FormItem>
         <FormItem>
-          <Button type="submit" className={styles.btn} disabled={!eachValid}>
-            Создать
+          <Button type="submit" className={styles.btn} disabled={disabled}>
+            {id ? 'Изменить' : 'Создать'}
           </Button>
         </FormItem>
       </>

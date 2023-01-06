@@ -1,0 +1,16 @@
+### getSpecialties
+- request:
+    url: ^/ugsn/([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/specialties$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: data/getSpecialties.json
+
+### createSpeciality
+- request:
+    url: ^/ugsn/([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/specialties$
+    method: POST
+  response:
+    - status: 201

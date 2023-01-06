@@ -1,13 +1,13 @@
 import { createDomain, sample } from 'effector';
-import { createReEffect } from 'effector-reeffect';
 
+import { createEffectWrapper } from '@utils';
 import { bankApi } from 'api';
-import type { Competence } from 'types/bank';
+import type { Competence } from 'types/competence';
 import type { Option } from 'types/select';
 
 const competenceDomain = createDomain('competence domain');
 
-const getCompetenceFx = createReEffect({ handler: bankApi.getCompetence });
+const getCompetenceFx = createEffectWrapper(competenceDomain, { handler: bankApi.getCompetence });
 
 // EVENTS
 const selectCompetence = competenceDomain.createEvent<string>();
@@ -26,7 +26,7 @@ const $competenceOptions = competenceDomain
   .on(getCompetenceFx.doneData, (_, competenceList) =>
     competenceList.map(({ code, title }) => ({
       id: code,
-      value: `${code}–${title}`,
+      value: `${code} – ${title}`,
     }))
   );
 
@@ -66,7 +66,7 @@ sample({
     const foundCompetence = competenceList.find((s) => s.id === sp?.code ?? -1);
 
     if (foundCompetence) {
-      return `${foundCompetence.id}–${foundCompetence.value}`;
+      return `${foundCompetence.id} – ${foundCompetence.value}`;
     }
 
     return '';
@@ -79,10 +79,10 @@ sample({
   source: $listOfCompetence,
   fn: (competenceList, input) =>
     competenceList
-      .filter((s) => `${s.code}–${s.title}`.includes(input))
+      .filter((s) => `${s.code} – ${s.title}`.includes(input))
       .map(({ code, title }) => ({
         id: code,
-        value: `${code}–${title}`,
+        value: `${code} – ${title}`,
       })),
   target: $competenceOptions,
 });

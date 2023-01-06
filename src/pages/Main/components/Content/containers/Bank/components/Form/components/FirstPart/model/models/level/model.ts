@@ -1,29 +1,29 @@
 import { createDomain, sample } from 'effector';
-import { createReEffect } from 'effector-reeffect';
 
-import { bankApi } from 'api';
-import type { LevelOfEducation } from 'types/bank';
+import { createEffectWrapper } from '@utils';
+import { levelsApi } from 'api';
+import type { Level } from 'types/level';
 import type { Option } from 'types/select';
 
 const levelDomain = createDomain('level domain');
 
-const getLevelsOfEducationFx = createReEffect({ handler: bankApi.getLevelsOfEducation });
+const getLevelsFx = createEffectWrapper(levelDomain, { handler: levelsApi.getAll });
 
 // EVENTS
 const selectLevel = levelDomain.createEvent<string>();
 const changeLevelInput = levelDomain.createEvent<string>();
-const updateLevelField = levelDomain.createEvent<LevelOfEducation | null>();
-const levelFieldUpdated = levelDomain.createEvent<LevelOfEducation | null>();
+const updateLevelField = levelDomain.createEvent<Level | null>();
+const levelFieldUpdated = levelDomain.createEvent<Level | null>();
 const clearLevel = levelDomain.createEvent();
 
 // STORES
 const $listOfLevelsEducation = levelDomain
-  .createStore<LevelOfEducation[]>([])
-  .on(getLevelsOfEducationFx.doneData, (_, levels) => levels);
+  .createStore<Level[]>([])
+  .on(getLevelsFx.doneData, (_, levels) => levels);
 
 const $levelsOfEducationOptions = levelDomain
   .createStore<Option[]>([])
-  .on(getLevelsOfEducationFx.doneData, (_, levels) =>
+  .on(getLevelsFx.doneData, (_, levels) =>
     levels.map(({ id, title }) => ({
       id,
       value: title,
@@ -88,9 +88,9 @@ export const levelModel = {
   stores: {
     levelOptions: $levelsOfEducationOptions,
     levelValue: $levelValue,
-    optionsLoading: getLevelsOfEducationFx.pending,
+    optionsLoading: getLevelsFx.pending,
   },
   effects: {
-    getLevelsOfEducationFx,
+    getLevelsFx,
   },
 };

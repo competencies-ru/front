@@ -1,3 +1,4 @@
-import { New } from './New';
+import { Form } from './Form';
+import { Main } from './Main';
 
-export { New };
+export { Main, Form };

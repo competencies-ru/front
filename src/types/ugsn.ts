@@ -1,7 +1,13 @@
-import { LevelOfEducation } from './bank';
+import { Level } from './level';
+
+export type UGSN = {
+  id: string;
+  code: string;
+  title: string;
+};
 
 export type CreateUGSNForm = {
-  level: LevelOfEducation | null;
+  level: Level | null;
   ugsnCode: string;
   ugsn: string;
 };
