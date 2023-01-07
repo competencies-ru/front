@@ -16,7 +16,7 @@ const Program = React.lazy(() =>
   import('./containers/Program').then((component) => ({ default: component.Program }))
 );
 
-class Form extends React.Component {
+class Form extends React.PureComponent {
   static Level = Level;
 
   static UGSN = UGSN;

@@ -8,7 +8,7 @@ import { New } from './components';
 
 import styles from './Indicator.module.scss';
 
-class Indicator extends React.Component {
+class Indicator extends React.PureComponent {
   static New = New;
 
   render() {

@@ -54,17 +54,24 @@ guard({
   target: getLevelFx,
 });
 
-split({
-  source: $id,
+// TODO
+// split({
+//   source: $id,
+//   clock: form.formValidated,
+//   match: {
+//     create: (id) => !id,
+//     update: (id) => !!id,
+//   },
+//   cases: {
+//     create: createLevelFx,
+//     update: updateLevelFx,
+//   },
+// });
+
+sample({
   clock: form.formValidated,
-  match: {
-    create: (id) => !id,
-    update: (id) => !!id,
-  },
-  cases: {
-    create: createLevelFx,
-    update: updateLevelFx,
-  },
+  fn: (form) => form.level,
+  target: createLevelFx,
 });
 
 sample({

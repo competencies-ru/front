@@ -8,7 +8,7 @@ import { New } from './components';
 
 import styles from './Bank.module.scss';
 
-class Bank extends React.Component {
+class Bank extends React.PureComponent {
   static New = New;
 
   render() {

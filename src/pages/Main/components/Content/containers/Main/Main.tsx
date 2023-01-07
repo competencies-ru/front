@@ -16,7 +16,7 @@ const Program = React.lazy(() =>
   import('./containers/Program').then((component) => ({ default: component.Program }))
 );
 
-class Main extends React.Component {
+class Main extends React.PureComponent {
   static Level = Level;
 
   static UGSN = UGSN;
