@@ -5,6 +5,7 @@ import { Role } from 'types/user';
 import BankIcon from '../assets/bank.svg';
 // import CalendarIcon from '../assets/calendar.svg';
 import SpecialityIcon from '../assets/brick.svg';
+import CompetenceIcon from '../assets/competence.svg';
 import DegreeIcon from '../assets/degree.svg';
 import IndicatorIcon from '../assets/indicator.svg';
 import MenuIcon from '../assets/menu.svg';
@@ -55,6 +56,12 @@ const TEACHER_MENU_ITEMS: IMenuItem[] = [
     name: 'Обр. пр./Спец.',
     path: '/program',
     Icon: ProgramIcon,
+    children: ['/new', '/edit'],
+  },
+  {
+    name: 'Компетенции',
+    path: '/competencies',
+    Icon: CompetenceIcon,
     children: ['/new', '/edit'],
   },
   {

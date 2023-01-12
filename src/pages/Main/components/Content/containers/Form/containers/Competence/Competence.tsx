@@ -5,12 +5,14 @@ import { useGate, useStore } from 'effector-react';
 import { useParams } from 'react-router';
 
 import { Button, FormItem, Input, Select, Typography, TypographyType } from '@ui';
+import { CompetenceType, CompetenceTypeTitle } from 'types/competence';
+import { Option } from 'types/select';
 
 import { programFormModel } from './model';
 
-import styles from './Program.module.scss';
+import styles from './Competence.module.scss';
 
-const Program = () => {
+const Competence = () => {
   const { id } = useParams<{ id?: string }>();
   useGate(programFormModel.gates.openGate, id ?? null);
 
@@ -31,6 +33,11 @@ const Program = () => {
   const selectedSpeciality = useStore(programFormModel.specialityOptions.stores.selectedOption);
   const specialityLoading = useStore(programFormModel.specialityOptions.stores.loading);
 
+  // program <Select />
+  const programOptions = useStore(programFormModel.programsOptions.stores.userOptions);
+  const selectedProgram = useStore(programFormModel.programsOptions.stores.selectedOption);
+  const programLoading = useStore(programFormModel.programsOptions.stores.loading);
+
   const handleSubmit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -42,14 +49,9 @@ const Program = () => {
 
   const disabled = React.useMemo(() => !eachValid, [eachValid]);
 
-  const type = React.useMemo(
-    () => (selectedLevel === 'Специалитет' ? 'специализации' : 'образовательной программы'),
-    [selectedLevel]
-  );
-
   const title = React.useMemo(() => {
-    return `${id ? 'Редактирование' : 'Создание'} ${type}`;
-  }, [id, type]);
+    return `${id ? 'Редактирование' : 'Создание'} компетенции`;
+  }, [id]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -96,19 +98,51 @@ const Program = () => {
           />
         </FormItem>
         <FormItem>
-          <Input
-            value={fields.programCode.value}
-            onChange={fields.programCode.onChange}
-            placeholder={`Код ${type}`}
-            errorText={errorText('programCode')}
+          <Select
+            placeholder={
+              selectedLevel === 'Специалитет' ? 'Специализация' : 'Образовательная программа'
+            }
+            value={selectedProgram}
+            options={programOptions}
+            onChange={programFormModel.programsOptions.events.onSelect}
+            onInputChange={programFormModel.programsOptions.events.onInput}
+            loading={programLoading}
+            onClear={programFormModel.programsOptions.events.clear}
+            disabled={!selectedSpeciality}
+            errorText={errorText('program')}
           />
         </FormItem>
         <FormItem>
           <Input
-            value={fields.program.value}
-            onChange={fields.program.onChange}
-            placeholder={`Название ${type}`}
-            errorText={errorText('program')}
+            value={fields.type.value ? CompetenceTypeTitle[fields.type.value] : ''}
+            placeholder="Тип"
+            errorText={errorText('type')}
+            disabled
+          />
+        </FormItem>
+        <FormItem>
+          <Input
+            value={fields.code.value}
+            onChange={fields.code.onChange}
+            placeholder="Код"
+            errorText={errorText('code')}
+            disabled={!fields.type.value}
+          />
+        </FormItem>
+        <FormItem>
+          <Input
+            value={fields.title.value}
+            onChange={fields.title.onChange}
+            placeholder="Название"
+            errorText={errorText('title')}
+          />
+        </FormItem>
+        <FormItem>
+          <Input
+            value={fields.category.value}
+            onChange={fields.category.onChange}
+            placeholder="Категория"
+            errorText={errorText('category')}
           />
         </FormItem>
         <FormItem>
@@ -121,4 +155,4 @@ const Program = () => {
   );
 };
 
-export default React.memo(Program);
+export default React.memo(Competence);

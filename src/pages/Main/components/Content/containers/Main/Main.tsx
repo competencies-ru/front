@@ -16,6 +16,10 @@ const Program = React.lazy(() =>
   import('./containers/Program').then((component) => ({ default: component.Program }))
 );
 
+const Competence = React.lazy(() =>
+  import('./containers/Competence').then((component) => ({ default: component.Competence }))
+);
+
 class Main extends React.PureComponent {
   static Level = Level;
 
@@ -24,6 +28,8 @@ class Main extends React.PureComponent {
   static Speciality = Speciality;
 
   static Program = Program;
+
+  static Competence = Competence;
 
   render() {
     return null;

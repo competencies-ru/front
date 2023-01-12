@@ -81,6 +81,10 @@ const Content: React.FC<IProps> = ({ collapsed, onCollapse }) => {
                 <Route index element={<Main.Program />} />
                 <Route path="new" element={<Form.Program />} />
               </Route>
+              <Route path="/competencies">
+                <Route index element={<Main.Competence />} />
+                <Route path="new" element={<Form.Competence />} />
+              </Route>
               {/* <Route path="/bank">
                 <Route index element={<Bank />} />
                 <Route path="new" element={<Bank.New />} />

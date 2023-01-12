@@ -12,7 +12,7 @@ import styles from './Input.module.scss';
 
 type Props = {
   value: string;
-  onChange: (v: string) => void;
+  onChange?: (v: string) => void;
   id?: string;
   name?: string;
   type?: React.HTMLInputTypeAttribute;
@@ -41,7 +41,9 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
 
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      if (onChange) {
+        onChange(e.target.value);
+      }
     },
     [onChange]
   );

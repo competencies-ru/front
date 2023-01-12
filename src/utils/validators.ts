@@ -1,6 +1,6 @@
 import { Rule } from 'effector-forms';
 
-const REQUIRED_TEXT = 'Обязательное поле';
+export const REQUIRED_TEXT = 'Обязательное поле';
 
 export const rules = {
   required: (): Rule<unknown> => ({
